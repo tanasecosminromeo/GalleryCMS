@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Gcmsadmin extends Admin_Controller {
+class Gcmsadmin extends Gcmsadmin_Controller {
 
 	/**
 	 * Index Page for this controller.
