@@ -1,24 +1,35 @@
 <?php
-class Install extends Controller {
-	function Install() {
-		parent::Controller();
-		if ($this->db->table_exists('db_users')) redirect('login');
-	}
+class Install extends Public_Controller {
+		
+	function __construct()
+	{
+	log_message('debug', "*** URI: ".$this->uri->ruri_string());
+	parent::__construct();
+	
+	}	
+	
+	
 	function index() {
-		$this->load->view('install');
+		$this->load->view('install/install_view');
 	}
+	
 	function gentables() {
+		
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|xss_clean');
+		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|matches[passconf]|md5');
 		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required');
+		
 		if ($this->form_validation->run() == FALSE) {
-			$this->load->view('install');
+			
+			$this->index();
+			
 		} else {		
-			$us = $_POST['username'];
-			$pw = $_POST['password'];
+			$us = $this->input->post('username');
+			$pw = $this->input->post('password');
 			
 			$this->load->dbforge();
+			
 			$db_users_fields = array(
 		                        'id' => array(
 		                                                 'type' => 'INT',
@@ -35,7 +46,7 @@ class Install extends Controller {
 		                );
 			$this->dbforge->add_field($db_users_fields);
 			$this->dbforge->add_key('id', TRUE);
-			$this->dbforge->create_table('db_users', TRUE);
+			$this->dbforge->create_table('gcms_users', TRUE);
 		
 		
 			$gallery_categories_fields = array(
@@ -56,7 +67,7 @@ class Install extends Controller {
 		                );
 			$this->dbforge->add_field($gallery_categories_fields);
 			$this->dbforge->add_key('id', TRUE);
-			$this->dbforge->create_table('gallery_categories', TRUE);
+			$this->dbforge->create_table('gcms_categories', TRUE);
 		
 		
 			$gallery_assets_fields = array(
@@ -85,7 +96,7 @@ class Install extends Controller {
 		
 			$this->dbforge->add_field($gallery_assets_fields);
 			$this->dbforge->add_key('img_id', TRUE);
-			$this->dbforge->create_table('gallery_assets', TRUE);
+			$this->dbforge->create_table('gcms_assets', TRUE);
 		
 		
 			$settings_fields = array(
@@ -107,7 +118,7 @@ class Install extends Controller {
 		                );
 			$this->dbforge->add_field($settings_fields);
 			$this->dbforge->add_key('id', TRUE);
-			$this->dbforge->create_table('settings', TRUE);
+			$this->dbforge->create_table('gcms_settings', TRUE);
 		
 			$sett->thumb_width = 100;
 			$sett->thumb_height = 75;
@@ -117,21 +128,21 @@ class Install extends Controller {
 		
 			$this->username = $us;
 			$this->password = $pw;
-			$insertNew = $this->db->insert('db_users', $this);
+			$insertNew = $this->db->insert('gcms_users', $this);
 			if ($insertNew) {
 				$this->_created($us,$pw);
 			} else {
-				echo("Fail");
+				echo("Operation Failed!");
 			}
 		}	
 	}
 	function _created($us, $pw) {
-		$this->load->model('users_tbl');
-		$results = $this->users_tbl->login($us,$pw);
-		if ($results == false) redirect('login');
+		$this->load->model('users_model', 'users');
+		$results = $this->users->login($us,$pw);
+		if ($results == false) redirect(base_url().'gcmsadmin/login');
 		else {
 			$this->session->set_userdata(array('userid'=>$results));
-			redirect('gallery');
+			redirect('/');
 		}
 	}
 }
