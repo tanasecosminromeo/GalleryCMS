@@ -43,10 +43,11 @@ $route['default_controller'] = "home";
 
 
 // custom rules here
-$route['^(?!mobile|gcmsadmin|admin).*'] = "home/$0";
+$route['^(?!mobile|gcmsadmin|admin|users).*'] = "home/$0";
 $route['mobile/(:any)'] = "mobile/$1";
 $route['gcmsadmin/(:any)'] = "gcmsadmin/$1";
 $route['admin/(:any)'] = "admin/$1";
+$route['users/(:any)'] = "users/$1";
 
 //eg : $route['404_override']  = "/error404";
 $route['404_override'] = '';
