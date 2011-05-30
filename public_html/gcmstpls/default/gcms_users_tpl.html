@@ -4,6 +4,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><?=$title?></title>
+<?=$meta_tags; ?>	
 <base href="<?php echo base_url(); ?>" />
 
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url() ?>gcmstpls/default/images/favicon.ico">
@@ -36,26 +37,31 @@ h1, h2, h3, .bigtext { font-family: 'Amaranth', arial, serif; }
 </head>
 <body>
 	
-<div id="login-header">
-	
-     <a href="<?=base_url()?>"> <div id="logo" class="login-logo"></div></a>
-     <div class="clear"></div>
-	<div id="login-title" class="bigtext"><?=$page_title?></div>
-	
-	
+<div id="header">
+	<div id="headercontent">
+
+     <a href="<?=base_url()?>gcmsadmin"> <div id="logo" class="main-logo"></div></a>
+     
+     <div id="pagetitle">
+     <h1>A free CMS for photo galleries</h1>
+     
+     </div>
+  	<?=$top_nav; ?>	
+    </div>
+
 </div>
-
-
-<div id="login-container">
+<div id="container">
+	
  
  <?=$main_content ?> 
   
+  
 </div>
 
-<div id="login-footer">
-	
+<div id="footer">
+
 	<div id="footercontent">
-    	<div id="copyright"><?=$copyright ?></div>
+    	<div id="copyright"><?=$copyright?></div>
         <div id="utilitynav">
 		</div>
 	</div>

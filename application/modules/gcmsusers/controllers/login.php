@@ -13,12 +13,11 @@ class Login extends Gcmsadmin_Controller{
              parent::__construct();
 			  //get template name
             $this->template->set_master_template('../../public_html/gcmstpls/default/gcms_login_tpl.html');
-            $this->template->write('page_title', 'Administration Login');
+            $this->template->write('page_title', 'Login');
 			
 			$this->load->library('form_validation');
 			$this->load->library('session');
-			
-			
+		
 			// load model
 			$this->load->model('users_model', 'users');
 	}
@@ -26,7 +25,7 @@ class Login extends Gcmsadmin_Controller{
 	
 	function index() {
 		
-		$this->template->write_view('main_content', 'users/login_view');
+		$this->template->write_view('main_content', 'login/login_view');
 		$this->template->write('title', ' - Login');
 		$this->template->render();
 

@@ -37,7 +37,7 @@ class Gcmsadmin_Controller extends MX_Controller{
     {
         parent::__construct();
 
-        log_message('debug', 'Users Controller Controller Initialized');
+        log_message('debug', 'Gcmsadmin Controller Controller Initialized');
 		 
 		$this->load_gcmsadmin_template();
 		$this->load_gcmsadmin_assets();
@@ -59,6 +59,7 @@ class Gcmsadmin_Controller extends MX_Controller{
 						'title',
 						'meta_tags',
 						'top_nav',
+						'page_title',
                         'error_mgs',
             			'main_content',
             			'right_side',
@@ -104,15 +105,67 @@ class Gcmsadmin_Controller extends MX_Controller{
 	
 class Gcmsusers_Controller extends MX_Controller{
       
-    function __construct()
+          function __construct()
     {
         parent::__construct();
 
-        log_message('debug', 'Gcmsusers Controller Controller Initialized');
+        log_message('debug', 'Users Controller Controller Initialized');
+		 
+		$this->load_gcmsusers_template();
+		$this->load_gcmsusers_assets();
+		$this->load_gcmsusers_defaults();
 
 		
 	}
 	
+	
+		
+		
+	   protected function  load_gcmsusers_template() {
+
+     	log_message('debug', 'Default gcms users default template Loaded ');
+		
+     	
+	  	$gusers['template'] = "../../public_html/gcmstpls/default/gcms_users_tpl.html";
+		$gusers['regions'] = array(
+						'title',
+						'meta_tags',
+						'top_nav',
+						'page_title',
+                        'error_mgs',
+            			'main_content',
+            			'right_side',
+            			'footer',
+            			'copyright'
+                     );
+
+        // add and switch to installer template
+		$this->template->add_template('gusers', $gusers, TRUE);
+
+
+                }
+	
+	 protected function load_gcmsusers_assets()
+            {
+           // Load js general to all child controllers.
+			$this->template->add_js('gcmstpls/default/scripts/jquery-1.6.min.js');
+			$this->template->add_js('gcmstpls/default/scripts/jquery.easing.1.3.js');
+		
+			// Load css general to child controllers.
+			$this->template->add_css('gcmstpls/default/styles/gcmsusers.css');
+			
+        }
+
+	 protected function load_gcmsusers_defaults()
+            {
+			$copyright = '<strong>Copyright &copy; '.date('Y').' GalleryCMS, All rights reserved.</strong>';
+					
+        	$this->template->write( 'title','GalleryCMS' );
+			$this->template->write( 'copyright',$copyright );
+			$this->template->write_view('top_nav', 'common/top_nav_view');
+		
+		
+        }
 	
 
 }//end of GCMSusers controller

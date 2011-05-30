@@ -379,6 +379,29 @@ class Install extends Installer_Controller {
 			
 		if(!$this->installer->insert_data('gcms_settings', $settings_data7)) $status = false;
 		
+		
+			$settings_data8 = array(
+					'option_name' => 'gcms_ver',
+					'option_value' => '2.0'					
+			); 
+			
+		if(!$this->installer->insert_data('gcms_settings', $settings_data8)) $status = false;
+		
+			$settings_data9 = array(
+					'option_name' => 'gcms_admin_tpl',
+					'option_value' => 'default'					
+			); 
+			
+		if(!$this->installer->insert_data('gcms_settings', $settings_data9)) $status = false;
+		
+			$settings_data10 = array(
+					'option_name' => 'gcms_users_tpl',
+					'option_value' => 'default'					
+			); 
+			
+		if(!$this->installer->insert_data('gcms_settings', $settings_data10)) $status = false;
+		
+		
 	return $status;
 		
 		
