@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title><?=$title?></title>
+<base href="<?php echo base_url(); ?>" />
+
+<link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url() ?>gcmstpls/default/images/favicon.ico">
+
+ <?= $_styles ?>
+ 
+ <!-- Javascripts -->
+<?= $_scripts ?>
+
+
+
+<link href='http://fonts.googleapis.com/css?family=Amaranth:regular,bold' rel='stylesheet' type='text/css'>
+<style type="text/css">
+
+h1, h2, h3, .bigtext { font-family: 'Amaranth', arial, serif; }
+
+</style>
+
+<!--[if lt IE 7]>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>gcmstpls/default/styles/ie6.css" />
+<![endif]-->
+
+ <!--[if IE 6]>    
+    <script type="text/javascript" src="<?php echo base_url(); ?>gcmstpls/default/scripts/DD_belatedPNG.js"></script>
+	<script type="text/javascript"> 
+	   DD_belatedPNG.fix('img'); 
+	</script>    
+<![endif]-->
+
+</head>
+<body>
+	
+<div id="login-header">
+	
+     <a href="<?=base_url()?>"> <div id="logo" class="login-logo"></div></a>
+     <div class="clear"></div>
+	<div id="login-title" class="bigtext">Administration Login</div>
+	
+	
+</div>
+
+
+<div id="login-container">
+ 
+ <?=$main_content ?> 
+  
+</div>
+
+<div id="login-footer">
+	
+	<div id="footercontent">
+    	<div id="copyright"><?=$copyright ?></div>
+        <div id="utilitynav">
+		</div>
+	</div>
+
+</div>
+
+</body>
+</html>

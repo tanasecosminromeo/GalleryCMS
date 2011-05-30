@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Welcome to gcms users home</title>
+	<title>Welcome to gcms users homes</title>
 
 <style type="text/css">
 
@@ -45,7 +45,7 @@ code {
 </head>
 <body>
 
-<h1>welcome to the users home</h1>
+<h1>welcome to the GalleryCMS users homes</h1>
 
 
 <p><br />Page rendered in {elapsed_time} seconds</p>

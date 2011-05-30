@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Users extends Users_Controller {
+class Gcmsusers extends Gcmsusers_Controller {
 
 	/**
 	 * Index Page for this controller.

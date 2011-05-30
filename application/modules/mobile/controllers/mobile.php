@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Mobile extends Mobile_Controller {
+class Mobile extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
