@@ -394,7 +394,7 @@ class Install extends Installer_Controller {
 			$data['checkup_status'] = false;
 			$data['phpver'] = "<span class='no'>" . phpversion() . " {You SHOULD upgrade this!}</span>";
 		} else {
-			$data['phpver'] = phpversion();
+			$data['phpver'] =  "<span class='ok'>" . phpversion() . "</span>";
 		}
 
 		$data['php_api_ver'] = @php_sapi_name();
@@ -408,8 +408,7 @@ class Install extends Installer_Controller {
 
 	
 	if(ini_get('register_globals')) {
-			$data['checkup_status'] = false;
-			$data['php_register_global_status'] = "<span class='no'>ON</span>";
+			$data['php_register_global_status'] = "<span class='warn'>ON</span>";
 		} else {
 			$data['php_register_global_status'] = "<span class='ok'>OFF</span>";
 		}
@@ -461,13 +460,12 @@ class Install extends Installer_Controller {
 			$gd_status = true;
 			}else{
 			$gd_status = false;
-			
 			$data['php_gd'] = "<span class='no'> Used to create and manipulate image files in a variety of different image formats, including GIF, PNG, JPEG, WBMP, and XPM</span>";
 			}
 		
 		exec("convert -version", $out, $rcode);
 		if( $rcode == 0){
-			$im_ver = $out[0];
+				$im_ver = $out[0];
 				$imagic_status = true;
 				$data['php_image_magic'] = "<span class='ok'>".$im_ver."</span>";
 		}else{
@@ -475,11 +473,8 @@ class Install extends Installer_Controller {
 				$data['php_image_magic'] = "<span class='no'></span>";
 		}
 		
-		//stop the install only if both gd And image magic are not available.
-		if(!$gd_status && !$imagic_status ) $data['checkup_status'] = false;
-			
-			
-			
+			//stop the install only if both gd And image magic are not available.
+		if(!$gd_status && !$imagic_status ) $data['checkup_status'] = false;	
 				
 		if(@extension_loaded('zlib')) {
 			$data['php_zlib'] = "<span class='ok'></span>";
@@ -498,7 +493,6 @@ class Install extends Installer_Controller {
 		if(@extension_loaded('curl')) {
 			$data['php_curl'] = "<span class='ok'></span>";
 			}else{
-			$data['checkup_status'] = false;
 			$data['php_curl'] = "<span class='no'></span>";
 			}
 				
@@ -561,7 +555,11 @@ class Install extends Installer_Controller {
 				}	 	
 				$data['folders_status'][$folder]  = $status;
 			}
-
+		
+		
+	
+		
+		
 		return $data;
 
 	}// end of class system checkup
