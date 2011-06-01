@@ -3,7 +3,8 @@
 <div id='login-box'>
 
 <?php 
-echo validation_errors('<p class="error-box">');
+ if (isset($err_message)) echo "<p class=\"error-box\">".$err_message."</p>";
+echo validation_errors();
 echo form_open('gcmsadmin/login/go');
 //use email as username.
 echo form_input('username', set_value('username', 'Email'), 'id="username_inp"');

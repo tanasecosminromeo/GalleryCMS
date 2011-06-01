@@ -16,7 +16,8 @@ class Install extends Installer_Controller {
 		
 		
 		$this->load->library('form_validation');
-		$this->load->library('session');
+		//autoloaded
+		//$this->load->library('session');
 	
 		}
 
@@ -218,7 +219,7 @@ class Install extends Installer_Controller {
 			if ($this->db->table_exists('gcms_users_groups')){
 				$this->dbforge->rename_table('gcms_users_groups', 'bak_'.date('m-d-Y_h-m-s').'-gcms_users_groups');
 			}
-			$db_users_groups_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE), 'users_group' => array('type' => 'VARCHAR', 'constraint' => '25'), 'group_description' => array('type' => 'VARCHAR', 'constraint' => '255'), 'user_group_display' => array('type' => 'VARCHAR', 'constraint' => '255'), 'user_group_parms' => array('type' => 'VARCHAR', 'constraint' => '255') );
+			$db_users_groups_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE), 'users_group' => array('type' => 'VARCHAR', 'constraint' => '25'), 'group_id' => array('type' => 'TINYINT', 'constraint' => '2'), 'group_description' => array('type' => 'VARCHAR', 'constraint' => '255'), 'user_group_display' => array('type' => 'VARCHAR', 'constraint' => '255'), 'user_group_parms' => array('type' => 'VARCHAR', 'constraint' => '255') );
 			$this->dbforge->add_field($db_users_groups_fields);
 			$this->dbforge->add_key('id', TRUE);
 			if( !$this->dbforge->create_table('gcms_users_groups', TRUE)) $data['tables_status'] = false;	
@@ -263,7 +264,7 @@ class Install extends Installer_Controller {
 			if ($this->db->table_exists('gcms_assets')){
 			$this->dbforge->rename_table('gcms_assets', 'bak_'.date('m-d-Y_h-m-s').'-gcms_assets');	
 			}		
-			$gallery_assets_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'album_id' => array('type' => 'INT'), 'iurl_title' => array('type' => 'VARCHAR', 'constraint' => '255'), 'img_filename' => array('type' => 'VARCHAR', 'constraint' => '255'), 'thumb_filename' => array('type' => 'VARCHAR', 'constraint' => '255'), 'caption' => array('type' => 'TEXT'), 'img_tags' => array('type' => 'VARCHAR', 'constraint' => '255', ), 'img_owner' => array('type' => 'INT'), 'uploaded' => array('type' => 'DATETIME'), 'ipublished' => array('type' => 'TINYINT', 'constraint' => '2'), 'watermark' => array('type' => 'VARCHAR', 'constraint' => '255'), 'parms' => array('type' => 'VARCHAR', 'constraint' => '255'), 'order_num' => array('type' => 'INT'), 'viewed' => array('type' => 'INT'), 'emailed' => array('type' => 'INT') );
+			$gallery_assets_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'album_id' => array('type' => 'INT'), 'iurl_title' => array('type' => 'VARCHAR', 'constraint' => '255'), 'img_filename' => array('type' => 'VARCHAR', 'constraint' => '255'), 'thumb_filename' => array('type' => 'VARCHAR', 'constraint' => '255'), 'caption' => array('type' => 'TEXT'), 'img_tags' => array('type' => 'VARCHAR', 'constraint' => '255', ), 'img_owner' => array('type' => 'INT'), 'uploaded' => array('type' => 'DATETIME'), 'rated' => array('type' => 'TINYINT', 'constraint' => '2'), 'ipublished' => array('type' => 'TINYINT', 'constraint' => '2'), 'watermark' => array('type' => 'VARCHAR', 'constraint' => '255'), 'parms' => array('type' => 'VARCHAR', 'constraint' => '255'), 'order_num' => array('type' => 'INT'), 'viewed' => array('type' => 'INT'), 'emailed' => array('type' => 'INT') );
 			$this->dbforge->add_field($gallery_assets_fields);
 			$this->dbforge->add_key('id', TRUE);
 			if( !$this->dbforge->create_table('gcms_assets', TRUE)) $data['tables_status'] = false;	
@@ -288,6 +289,7 @@ class Install extends Installer_Controller {
 		
 		$groups_data = array(
 					'users_group' => 'super',
+					'group_id'=> 0,
 					'user_group_display' => 'Super Administrator',
 					'group_description' => 'Admin of Admins'					
 			); 
@@ -297,6 +299,7 @@ class Install extends Installer_Controller {
 		
 		$groups_data2 = array(
 					'users_group' => 'admins',
+					'group_id'=> 1,
 					'user_group_display' => 'Administrators',
 					'group_description' => 'Admins'					
 			); 
@@ -306,6 +309,7 @@ class Install extends Installer_Controller {
 		
 		$groups_data3 = array(
 					'users_group' => 'users',
+					'group_id'=> 3,
 					'user_group_display' => 'Users',
 					'group_description' => 'Simple User'					
 			); 
@@ -318,7 +322,7 @@ class Install extends Installer_Controller {
 					'username' => $data->gausername,
 					'password' => $data->gapass,
 					'email' => $data->gaemail,			
-					'usertype' => '1',
+					'usertype' => '0',
 					'enabled' => true,
 					'register_date' => $rightnow,
 					'last_visit' => $rightnow,
@@ -598,6 +602,10 @@ class Install extends Installer_Controller {
 		// delete views folder
 		$install_views_dir = APPPATH.'modules/home/views/install';
 		delete_directory($install_views_dir);
+		
+		// delete models folder
+		$install_models_filename = APPPATH.'modules/home/models/installer_model.php';
+		unlink($install_models_filename);
 		
 	}
 

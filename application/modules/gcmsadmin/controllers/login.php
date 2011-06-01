@@ -16,7 +16,8 @@ class Login extends Gcmsadmin_Controller{
             $this->template->write('page_title', 'Administration Login');
 			
 			$this->load->library('form_validation');
-			$this->load->library('session');
+			//autoloaded
+			//$this->load->library('session');
 			
 			
 			// load model
@@ -32,15 +33,17 @@ class Login extends Gcmsadmin_Controller{
 
 	}
 	
-		function go()
+	public	function go()
 	{		
-        $entry_data->username = $this->input->post('username');
-		$entry_data->password = sha1($this->input->post('password'));
+        $entry_data->username = trim($this->input->post('username'));
+		$entry_data->password = sha1(trim($this->input->post('password')));
 
 		// field name, error message, validation rules
 		$this->form_validation->set_rules('username', 'Email Address', 'trim|required|valid_email');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]|xss_clean');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
 	
+		 // set new delimiter
+	    $this->form_validation->set_error_delimiters('<div class="error-box">', '</div>');
 		
 		if($this->form_validation->run($this) == FALSE)
 		{
@@ -51,15 +54,12 @@ class Login extends Gcmsadmin_Controller{
 		{			
 			$validation = $this->_validate_cred( $entry_data );
 			
-			if($validation) // if the user's credentials validated...
+			if(!$validation->err_status) // if the user's credentials validated...
 			{
-
-                    $user_group = $this->users->return_user_group($entry_data);
-                    
-                    $sess = array(
-								'username' => $entry_data->username,
-                                'user_group' => $user_group,
-                                'user_id' =>$user_id,
+				  $sess = array(
+								'username' => $validation->username,
+                                'user_group' => $validation->usertype,
+                                'user_id' =>$validation->id,
 								'is_logged_in' => true
 								);
 								
@@ -69,14 +69,13 @@ class Login extends Gcmsadmin_Controller{
                     //$this->users->log_login();
                     //$this->users->last_login();
 					
-				redirect(bas_url().'gcmsadmin');
+				redirect(base_url().'gcmsadmin');
 			}
 			else // incorrect username or password
 			{
-				$data->error_string = 'Wrong Credentials!';
 				
                 $this->template->write('title', ' - Login!');
-				$this->template->write_view('main_content', 'login', $data);
+				$this->template->write_view('main_content', 'users/login_view', $validation);
 				$this->template->render();
 				
 			}		
@@ -84,23 +83,54 @@ class Login extends Gcmsadmin_Controller{
 	}
 	
 	
-	function _validate_cred( $data ){
-		$is_admin_exist = $this->users->is_admin_exist($data);
-		$is_admin = $this->users->is_admin($data);
-		$is_admin_activated = $this->users->is_admin_activated($data);
-		$is_admin_enabled = $this->users->is_admin_enabled($data);
+	function _validate_cred( $cred ){
 		
-		
-		//tests to follow
-		
-		return true;
+		$valid = $this->users->is_valid_user($cred);
+			
+		if(!$valid){
+			
+			$data->err_message ='Email Address  or password Error!';
+			$data->err_status = true; 
+			
+		}else{
+			
+						
+		if( $valid->usertype > 2 ){
+			//user is not an admin he is a simple user	
+			redirect(base_url().'gcmsusers');
+			
+			}elseif(!$valid->activation){
+			$data->err_message ='Admin Not Active Yet! Contact -- '.base_url().' Administrator to Activate it -- Sorry for the inconvinience ';
+			$data->err_status = true; 
+			
+			}elseif(!$valid->enabled){
+			
+			$data->err_message ='You didn\'t Verify your account Yet, open the email that we sent you and click the link to activate your account! ';
+			$data->err_status = true; 	
+			}else {
+				
+			$data = $valid;	
+			$data->err_status = false; 		
+			}
+			
+			
+			
+		}
+				
+		return $data;
 	}
 	
 
 	function leave() {
-		$this->session->set_userdata(array('userid'=>''));
+		$sess = array(
+					'username' => '',
+                    'user_group' => '',
+                    'user_id' => '',
+					'is_logged_in' => false
+					);
+		$this->session->set_userdata($sess);
 		$this->session->sess_destroy();
-		redirect('login');
+		redirect(base_url().'gcmsadmin/login');
 	}
 	
 }//end of class
