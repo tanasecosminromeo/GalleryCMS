@@ -4,7 +4,11 @@
 
 <?php 
 echo validation_errors('<p class="error-box">');
-echo form_open('gcmsadmin/login/go');
+if (isset($error_string))
+{
+	echo '<p class="error-box">' . $error_string . '</p>';
+}
+echo form_open('gcmsusers/login/go');
 //use email as username.
 echo form_input('username', set_value('username', 'Email'), 'id="username_inp"');
 echo form_password('password', set_value('password', 'Password'), 'id="password_inp"');
