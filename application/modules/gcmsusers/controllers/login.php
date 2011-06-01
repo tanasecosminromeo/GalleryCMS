@@ -95,9 +95,8 @@ class Login extends Gcmsadmin_Controller
 
   function leave()
   {
-    $this->session->set_userdata(array('userid' => ''));
     $this->session->sess_destroy();
-    redirect('login');
+    redirect('gcmsusers/login');
   }
 
 }
