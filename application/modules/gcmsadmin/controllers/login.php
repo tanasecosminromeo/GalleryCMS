@@ -126,7 +126,7 @@ class Login extends Gcmsadmin_Controller{
 
 	function leave() {
 		$sess = array(
-					'username' => '',
+					'name' => '',
                     'group_id' => '',
                     'user_id' => '',
 					'is_logged_in' => false
