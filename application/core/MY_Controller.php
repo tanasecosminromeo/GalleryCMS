@@ -38,23 +38,26 @@ class Gcmsadmin_Controller extends MX_Controller{
         parent::__construct();
 
         log_message('debug', 'Gcmsadmin Controller Controller Initialized');
-		 
-		$this->load_gcmsadmin_template();
+		
+		$data  = modules::run('gcmsadmin/common/_read_global_settings' );
+				
+		$this->load_gcmsadmin_template( $data['gcms_admin_tpl']);
 		$this->load_gcmsadmin_assets();
-		$this->load_gcmsadmin_defaults();
+		$this->load_gcmsadmin_defaults($data);
 
+		
 		
 	}
 	
 	
 		
 		
-	   protected function  load_gcmsadmin_template() {
+	   protected function  load_gcmsadmin_template( $tpl_name='default' ) {
 
      	log_message('debug', 'Default gcms admin default template Loaded ');
 		
      	
-	  	$gadmin['template'] = "../../public_html/gcmstpls/default/gcms_admin_tpl.html";
+	  	$gadmin['template'] = '../../public_html/gcmstpls/'.$tpl_name.'/gcms_admin_tpl.html';
 		$gadmin['regions'] = array(
 						'title',
 						'meta_tags',
@@ -82,11 +85,12 @@ class Gcmsadmin_Controller extends MX_Controller{
 			
         }
 
-	 protected function load_gcmsadmin_defaults()
+	 protected function load_gcmsadmin_defaults( $data )
             {
-			$copyright = '<strong>Copyright &copy; '.date('Y').' GalleryCMS, All rights reserved.</strong>';
+            
+			$copyright = '<strong>Copyright &copy; '.date('Y').' '.$data['site_name'].', All rights reserved. Powered by GalleryCMS '.$data['gcms_ver'].'</strong>';
 					
-        	$this->template->write( 'title','GalleryCMS - Administration' );
+        	$this->template->write( 'title', $data['site_name'].' - Administration' );
 			$this->template->write( 'copyright',$copyright );
 			$this->template->write_view('top_nav', 'common/top_nav_view');
 		

@@ -1,0 +1,1 @@
+<h2>Settings Manager</h2>
