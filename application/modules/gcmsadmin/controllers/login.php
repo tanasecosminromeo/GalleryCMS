@@ -11,14 +11,17 @@ class Login extends Gcmsadmin_Controller{
         log_message('debug', "*** URI: ".$this->uri->ruri_string());
 		
              parent::__construct();
+			 
+			 
+			 $filename = APPPATH.'modules/home/controllers/install.php';
+			if (file_exists($filename)) redirect(base_url().'install');
+			 
+			 
 			  //get template name
             $this->template->set_master_template('../../public_html/gcmstpls/default/gcms_login_tpl.html');
             $this->template->write('page_title', 'Administration Login');
 			
 			$this->load->library('form_validation');
-			//autoloaded
-			//$this->load->library('session');
-			
 			
 			// load model
 			$this->load->model('users_model', 'users');
@@ -57,8 +60,8 @@ class Login extends Gcmsadmin_Controller{
 			if(!$validation->err_status) // if the user's credentials validated...
 			{
 				  $sess = array(
-								'username' => $validation->username,
-                                'user_group' => $validation->usertype,
+								'name' => $validation->name,
+                                'group_id' => $validation->usertype,
                                 'user_id' =>$validation->id,
 								'is_logged_in' => true
 								);
@@ -95,7 +98,7 @@ class Login extends Gcmsadmin_Controller{
 		}else{
 			
 						
-		if( $valid->usertype > 2 ){
+		if( $valid->usertype > 1 ){
 			//user is not an admin he is a simple user	
 			redirect(base_url().'gcmsusers');
 			
@@ -124,7 +127,7 @@ class Login extends Gcmsadmin_Controller{
 	function leave() {
 		$sess = array(
 					'username' => '',
-                    'user_group' => '',
+                    'group_id' => '',
                     'user_id' => '',
 					'is_logged_in' => false
 					);

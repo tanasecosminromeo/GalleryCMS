@@ -13,11 +13,8 @@ class Install extends Installer_Controller {
 		// receive that name if it exist for future use.
 		$this->dbname = $this->db->database;
 		
-		
-		
 		$this->load->library('form_validation');
-		//autoloaded
-		//$this->load->library('session');
+		
 	
 		}
 
@@ -131,6 +128,8 @@ class Install extends Installer_Controller {
 		$this->form_validation-> set_rules('thumb_width', 'Thumbnails Width', 'numeric|trim|required|greater_than[10]|less_than[200]');
 		$this->form_validation-> set_rules('thumb_height', 'Thumbnails Height', 'numeric|trim|required|greater_than[10]|less_than[200]');
 		
+		$this->form_validation-> set_rules('uploads_folder', 'Albums Uploads Folder', 'alpha_dash|trim|required|min_length[2]|max_length[12]');
+		
 		$this->form_validation->set_error_delimiters('<label class="error-box">', '</label>');
 		 
 		if($this->form_validation->run($this) == FALSE) {
@@ -150,7 +149,7 @@ class Install extends Installer_Controller {
 			$data->crop_imgs = $this->input->post('crop_imgs');
 			$data->thumb_width = $this->input->post('thumb_width');
 			$data->thumb_height = $this->input->post('thumb_height');
-			
+			$data->uploads_folder = $this->input->post('uploads_folder');
 				
 			$installed = $this->_process_install( $data );
 			
@@ -180,6 +179,7 @@ class Install extends Installer_Controller {
 		// install database tables and insert settings and 1st user
 		$status = $this->_create_gcms_tables();
 		$status = $this->_insert_gcms_predata($data);
+		$status = $this->_create_uploads_folder($data->uploads_folder);
 		
 		return $status;
 	}
@@ -228,7 +228,7 @@ class Install extends Installer_Controller {
 			if ($this->db->table_exists('gcms_users')){
 			$this->dbforge->rename_table('gcms_users', 'bak_'.date('m-d-Y_h-m-s').'-gcms_users');
 			}
-			$db_users_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE), 'name' => array('type' => 'VARCHAR', 'constraint' => '255'), 'username' => array('type' => 'VARCHAR', 'constraint' => '150'), 'password' => array('type' => 'VARCHAR', 'constraint' => '100'), 'email' => array('type' => 'VARCHAR', 'constraint' => '100'), 'usertype' => array('type' => 'VARCHAR', 'constraint' => '25'), 'enabled' => array('type' => 'TINYINT', 'constraint' => '4'), 'register_date' => array('type' => 'DATETIME'), 'last_visit' => array('type' => 'DATETIME'), 'activation' => array('type' => 'TINYINT', 'constraint' => '2'), 'activation_code' => array('type' => 'VARCHAR', 'constraint' => '25'));
+			$db_users_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE), 'name' => array('type' => 'VARCHAR', 'constraint' => '255'), 'username' => array('type' => 'VARCHAR', 'constraint' => '150'), 'password' => array('type' => 'VARCHAR', 'constraint' => '100'), 'email' => array('type' => 'VARCHAR', 'constraint' => '100'), 'usertype' => array('type' => 'TINYINT', 'constraint' => '2'), 'enabled' => array('type' => 'TINYINT', 'constraint' => '4'), 'register_date' => array('type' => 'DATETIME'), 'last_visit' => array('type' => 'DATETIME'), 'activation' => array('type' => 'TINYINT', 'constraint' => '2'), 'activation_code' => array('type' => 'VARCHAR', 'constraint' => '25'));
 			$this->dbforge->add_field($db_users_fields);
 			$this->dbforge->add_key('id', TRUE);
 			if( !$this->dbforge->create_table('gcms_users', TRUE)) $data['tables_status'] = false;	
@@ -309,7 +309,7 @@ class Install extends Installer_Controller {
 		
 		$groups_data3 = array(
 					'users_group' => 'users',
-					'group_id'=> 3,
+					'group_id'=> 2,
 					'user_group_display' => 'Users',
 					'group_description' => 'Simple User'					
 			); 
@@ -322,7 +322,7 @@ class Install extends Installer_Controller {
 					'username' => $data->gausername,
 					'password' => $data->gapass,
 					'email' => $data->gaemail,			
-					'usertype' => '0',
+					'usertype' => 0,
 					'enabled' => true,
 					'register_date' => $rightnow,
 					'last_visit' => $rightnow,
@@ -404,6 +404,15 @@ class Install extends Installer_Controller {
 			); 
 			
 		if(!$this->installer->insert_data('gcms_settings', $settings_data10)) $status = false;
+		
+		
+			$settings_data11 = array(
+					'option_name' => 'uploads_folder',
+					'option_value' => './~'.$data->uploads_folder					
+			); 
+			
+		if(!$this->installer->insert_data('gcms_settings', $settings_data11)) $status = false;
+		
 		
 		
 	return $status;
@@ -569,9 +578,10 @@ class Install extends Installer_Controller {
 			
 		
 			//check folders status
+			// './uploads'=>'777 read/write/execute (INCLUDE SUBDIRECTORIES TOO)',
+			
 			foreach(
 			array(	APPPATH.'cache'=>'777 read/write/execute',
-					'./uploads'=>'777 read/write/execute (INCLUDE SUBDIRECTORIES TOO)',
 					APPPATH.'logs'=>'777 read/write (INCLUDE SUBDIRECTORIES TOO)') as $folder => $chmod)
 					 {
 				if(@is_writable($folder)){
@@ -597,16 +607,51 @@ class Install extends Installer_Controller {
 		
 		// delete install controller
 		$install_controller_filename = dirname(__FILE__).'/install.php';
-		unlink($install_controller_filename);
+		$deleted = unlink($install_controller_filename);
 		
 		// delete views folder
 		$install_views_dir = APPPATH.'modules/home/views/install';
-		delete_directory($install_views_dir);
+		$deleted = delete_directory($install_views_dir);
 		
 		// delete models folder
 		$install_models_filename = APPPATH.'modules/home/models/installer_model.php';
-		unlink($install_models_filename);
+		$deleted = unlink($install_models_filename);
 		
+		return $deleted;
 	}
+	
+	
+	function _create_uploads_folder($dir){
+		
+		$uploads_dir = './~'.$dir;
+		//return true if dire exist or made.
+		 
+		$created = create_directory($uploads_dir);
+		
+		if($created){
+			
+			$data = '<html><head>
+					<title>403 Forbidden</title>
+					</head>
+					<body>
+
+					<p>Directory access is forbidden.</p>
+
+					</body>
+					</html>';
+
+	
+	if(!file_exists($uploads_dir.'/index.html')){
+		
+	if ( !write_file($uploads_dir.'/index.html', $data)) $created = false;
+			
+		}
+	
+	}
+		
+		return $created;
+	}
+	
+	
 
 }//end of controller class

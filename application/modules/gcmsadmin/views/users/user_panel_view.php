@@ -1,0 +1,1 @@
+<p class="white-text"> Welcome! <strong> <?=$this->session->userdata('name');?> </strong></p> 

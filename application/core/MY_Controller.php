@@ -58,6 +58,7 @@ class Gcmsadmin_Controller extends MX_Controller{
 		$gadmin['regions'] = array(
 						'title',
 						'meta_tags',
+						'user_panel',
 						'top_nav',
 						'page_title',
                         'error_mgs',
@@ -76,11 +77,8 @@ class Gcmsadmin_Controller extends MX_Controller{
 	 protected function load_gcmsadmin_assets()
             {
            // Load js general to all child controllers.
-			$this->template->add_js('gcmstpls/default/scripts/jquery-1.6.min.js');
-			$this->template->add_js('gcmstpls/default/scripts/jquery.easing.1.3.js');
+	
 		
-			// Load css general to child controllers.
-			$this->template->add_css('gcmstpls/default/styles/gcmsadmin.css');
 			
         }
 
@@ -148,11 +146,10 @@ class Gcmsusers_Controller extends MX_Controller{
 	 protected function load_gcmsusers_assets()
             {
            // Load js general to all child controllers.
-			$this->template->add_js('gcmstpls/default/scripts/jquery-1.6.min.js');
-			$this->template->add_js('gcmstpls/default/scripts/jquery.easing.1.3.js');
+			
 		
 			// Load css general to child controllers.
-			$this->template->add_css('gcmstpls/default/styles/gcmsusers.css');
+			
 			
         }
 
@@ -216,11 +213,8 @@ class Installer_Controller extends MX_Controller{
 	 protected function load_assets()
             {
            // Load js general to all child controllers.
-			$this->template->add_js('gcmstpls/default/scripts/jquery-1.6.min.js');
-			$this->template->add_js('gcmstpls/default/scripts/jquery.easing.1.3.js');
 		
 			// Load css general to child controllers.
-			$this->template->add_css('gcmstpls/default/styles/styles.css');
 			
         }
 

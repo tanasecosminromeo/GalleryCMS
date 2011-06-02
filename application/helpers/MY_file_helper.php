@@ -23,6 +23,34 @@ function delete_directory($dirname) {
 }
 
 }
+
+
+
+
+if ( ! function_exists('create_directory'))
+{
+
+
+
+
+/**
+ * php at msn dot net 
+ *
+ * Makes directory and returns BOOL(TRUE) if exists OR made.
+ *
+ * @param  $path Path name
+ * @return bool
+ */
+
+function create_directory($pathname, $mode = 0755, $rec = true) {
+	$pathname =  preg_replace('/(\/){2,}|(\\\){1,}/','/',$pathname); //only forward-slash
+	
+	 return is_dir($pathname) || @mkdir($pathname, $mode, $rec);
+}
+
+
+}
+
  
 
 

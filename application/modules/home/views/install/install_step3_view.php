@@ -192,7 +192,7 @@
 				
 			
 			<li>
-				<?php echo form_label('Thummbnails Width: (*)', 'thumb_width');?>
+				<?php echo form_label('Thumbnails Width: (*)', 'thumb_width');?>
 			</li>
 			<li class="input_form">
 				<?php
@@ -204,7 +204,7 @@
 			
 			
 			<li>
-				<?php echo form_label('Thummbnails Height: (*)', 'thumb_height');?>
+				<?php echo form_label('Thumbnails Height: (*)', 'thumb_height');?>
 			</li>
 			<li class="input_form">
 				<?php
@@ -213,6 +213,20 @@
 				echo form_input($data_thumb_height);
 				?>
 			</li>
+			
+			
+						<li>
+			<?php echo form_label('Upload Folder (Choose carefully the name for additional Security): (*)', 'upload_folder');?>
+			</li>
+			<li class="input_form">
+				<?php
+				$data_uploads_folder = array('name' => 'uploads_folder', 'id' => 'uploads_folder', 'value' => set_value('uploads_folder'), 'class' => 'required');
+
+				echo form_input($data_uploads_folder);
+				?>
+			</li>
+			
+			
 			</ul>
 			</fieldset>
 			
