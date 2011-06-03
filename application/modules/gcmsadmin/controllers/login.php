@@ -124,6 +124,87 @@ class Login extends Gcmsadmin_Controller{
 	}
 	
 
+
+	function password_recovery(){
+                                
+			    $this->template->write('title', ' - Password Recovery!');
+				$this->template->write('page_title', 'Password Recovery', TRUE);
+				$this->template->write_view('main_content', 'users/password_recovery_view');
+				$this->template->render();
+		
+	}
+
+		
+	function password_recovery_go(){
+		
+                // field name, error message, validation rules
+		$this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|callback__email_exist');
+		 // set new delimiter
+	    $this->form_validation->set_error_delimiters('<div class="error-box">', '</div>');
+		
+		
+		if($this->form_validation->run($this) == FALSE)
+		{
+			$this->password_recovery();
+				
+		}
+		
+		else
+		{			
+			
+			$email = trim($this->input->post('email'));
+			
+			 $emailsent = $this->_recovery_code_email($email);
+		
+			if($emailsent) // email sent
+			 {
+					$data['err_message'] = 'We Sent you an email!';	
+			 }
+			else // email wasnt sent
+			{
+					 $data['err_message'] = 'Unknown Problem happened while sending you the reset code contact the administrator for help!';
+			}
+			
+                    $this->template->write('title', ' - Password Recovery!');
+					$this->template->write('page_title', 'Password Recovery', TRUE);
+					$this->template->write_view('main_content', 'users/password_recovery_view', $data);
+					$this->template->render();
+ 					
+			
+	 }
+		
+						
+	}//end of password_recovery_go
+		
+
+
+	// callback function answers if email exist in db or not
+
+	function _email_exist($str){
+		
+		$str = trim($str);
+		
+		$exist = $this->users->admin_email_exist($str);		
+		if(!$exist){
+		 $this->form_validation->set_message('_email_exist', 'Oops! i cant find your email in my records verify your entry and try again!');
+		 	return FALSE;
+		}else{
+			return TRUE;
+		}
+	}
+
+
+
+
+function _recovery_code_email($email){
+	
+	
+	// generating verification code, recording it ending it will follow here
+	
+return true;	
+}
+
+
 	function leave() {
 		$sess = array(
 					'username' => '',
