@@ -60,7 +60,7 @@ class Login extends Gcmsadmin_Controller{
 			if(!$validation->err_status) // if the user's credentials validated...
 			{
 				  $sess = array(
-								'name' => $validation->name,
+								'username' => $validation->username,
                                 'group_id' => $validation->usertype,
                                 'user_id' =>$validation->id,
 								'is_logged_in' => true
@@ -68,7 +68,7 @@ class Login extends Gcmsadmin_Controller{
 								
 					$this->session->set_userdata($sess);
 					
-
+					
                     //$this->users->log_login();
                     //$this->users->last_login();
 					
@@ -126,7 +126,7 @@ class Login extends Gcmsadmin_Controller{
 
 	function leave() {
 		$sess = array(
-					'name' => '',
+					'username' => '',
                     'group_id' => '',
                     'user_id' => '',
 					'is_logged_in' => false

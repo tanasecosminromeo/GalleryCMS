@@ -1,1 +1,2 @@
-<p class="white-text"> Welcome! <strong> <?=$this->session->userdata('name');?> </strong></p> 
+<p class="white-text"> Hello!   <strong> <?=$this->session->userdata('username');?> </strong>, 
+<a href="<?=base_url()?>gcmsadmin/login/leave">Logout</a>, <a href="<?=base_url()?>gcmsadmin/myprofile">My Account</a>  </p> 

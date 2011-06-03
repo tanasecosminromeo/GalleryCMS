@@ -88,11 +88,12 @@ class Gcmsadmin_Controller extends MX_Controller{
 	 protected function load_gcmsadmin_defaults( $data )
             {
             
-			$copyright = '<strong>Copyright &copy; '.date('Y').' '.$data['site_name'].', All rights reserved. Powered by GalleryCMS '.$data['gcms_ver'].'</strong>';
+			$copyright = '<strong>Copyright &copy; '.date('Y').' '.$data['site_name'].', All rights reserved. Powered by <a href="http://www.gallerycms.com">GalleryCMS '.$data['gcms_ver'].'</a></strong>';
 					
         	$this->template->write( 'title', $data['site_name'].' - Administration' );
 			$this->template->write( 'copyright',$copyright );
 			$this->template->write_view('top_nav', 'common/top_nav_view');
+			
 		
 		
         }

@@ -50,7 +50,7 @@ $route['admin/(:any)'] = "admin/$1";
 $route['gcmsusers/(:any)'] = "gcmsusers/$1";
 
 //eg : $route['404_override']  = "/error404";
-$route['404_override'] = '';
+$route['404_override'] = '/error404';
 
 
 /* End of file routes.php */
