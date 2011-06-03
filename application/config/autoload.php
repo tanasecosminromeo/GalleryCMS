@@ -64,7 +64,7 @@ $autoload['libraries'] = array( 'database', 'xmlrpc', 'user_agent', 'template', 
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('html','url','file','date','email', 'form', 'array');
+$autoload['helper'] = array('html','url','file','date','email', 'form', 'array', 'random');
 
 
 /*

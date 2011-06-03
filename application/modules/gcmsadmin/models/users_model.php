@@ -27,7 +27,7 @@ public function admin_email_exist($email) {
        	$query = $this->db->get( 'gcms_users' );
 			
         if( $query->num_rows() > 0 ) {
-            return true;
+            return $query->row();
         } else {
             return false;
         }

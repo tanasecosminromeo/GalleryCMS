@@ -198,6 +198,8 @@ class Login extends Gcmsadmin_Controller{
 
 function _recovery_code_email($email){
 	
+	$reset_code = generate_random_code();
+	$user_info = $this->users->admin_email_exist($email);
 	
 	// generating verification code, recording it ending it will follow here
 	
