@@ -42,7 +42,7 @@ class Login extends Gcmsadmin_Controller{
 		$entry_data->password = sha1(trim($this->input->post('password')));
 
 		// field name, error message, validation rules
-		$this->form_validation->set_rules('username', 'Email Address', 'trim|required|valid_email');
+		$this->form_validation->set_rules('username', 'Email Address', 'trim|required|valid_email|callback__valid_domain|callback__email_exist');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
 	
 		 // set new delimiter
@@ -138,7 +138,7 @@ class Login extends Gcmsadmin_Controller{
 	function password_recovery_go(){
 		
                 // field name, error message, validation rules
-		$this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|callback__email_exist');
+		$this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|callback__valid_domain|callback__email_exist');
 		 // set new delimiter
 	    $this->form_validation->set_error_delimiters('<div class="error-box">', '</div>');
 		
@@ -162,7 +162,7 @@ class Login extends Gcmsadmin_Controller{
 			 }
 			else // email wasnt sent
 			{
-					 $data['err_message'] = 'Unknown Problem happened while sending you the reset code contact the administrator for help!';
+					 $data['err_message'] = 'Unknown error happened while sending you the reset code contact the administrator for help!';
 			}
 			
                     $this->template->write('title', ' - Password Recovery!');
@@ -194,17 +194,126 @@ class Login extends Gcmsadmin_Controller{
 	}
 
 
+	function _valid_domain($str){
+		
+		$str = trim($str);
+		$exist = domain_exists($str);
+		
+		if(!$exist){
+		 $this->form_validation->set_message('_valid_domain', 'Invalid Email Address, Check Your Entry and try again!');
+		 	return FALSE;
+		}else{
+			return TRUE;
+		}
+	}
+
+	function _recovery_code_email($email){
+			
+		$data = $this->users->admin_email_exist($email);
+		$data->reset_code = generate_random_code();
+		
+		$register_request = $this->users->register_reset_request($data);
+		$send_email = $this->_send_recovery_email($data);
+		
+		
+	return true;	
+	}
+	
+	
+	
+	
+	function _send_recovery_email($data){
+		
+				$this->load->library('email');
+				
+		  		//get contact name - email
+	            $toname  = $data->name;
+	   			$toemail  = $data->email;
+	   			$domain = $_SERVER['HTTP_HOST'];
+				
+				$this->email->set_newline("\r\n");
+				$this->email->from('no-reply@'.$domain, $domain.' support');
+				$this->email->to($toemail);
+				$subject = 'Password Reset Request';
+				$this->email->subject($subject);
+									
+				
+				$email_message = $this->load->view("users/emails/password_recovery_email_view.php",$data,true);
+				
+				$this->email->message($email_message);
+			
+				if($this->email->send())
+				{
+		          return true;
+		          
+				}else{
+					//show_error($this->email->print_debugger());
+					
+					return false;	
+				}
+		
+		
+	}
+	
+	
+	function reset_password($reset_code = NULL){
+				
+					
+				if(empty($reset_code))	$reset_code = trim( $this->input->post('reset_code'));
+				
+				$is_valid_code = $this->users->is_valid_reset_code($reset_code);
+				
+				if($is_valid_code){
+					$request_date_plus = mysql_to_unix($is_valid_code->reqdate) + 86400;
+					$now = time();
+					$request_life = $now - $request_date_plus;
+					
+					if($request_life <= 0 ){
+					$this->template->write('title', ' - Password Recovery!');
+					$this->template->write('page_title', 'Password Change', TRUE);
+					$this->template->write_view('main_content', 'users/password_change_view', $is_valid_code );
+					$this->template->render();
+					}else{
+							
+						$this->users->delete_reset_code($reset_code);
+						echo "Reset Code Expired Request  new one Please!";
+						die();
+					}
+					
+				}else{
+					
+						echo "Invalid Reset Code!";
+						die();
+				}
+				}//end of function
 
 
-function _recovery_code_email($email){
+	function password_change_go(){
+		
+		// field name, error message, validation rules
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
+		$this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required|min_length[4]|max_length[32]|matches[password]');
 	
-	$reset_code = generate_random_code();
-	$user_info = $this->users->admin_email_exist($email);
-	
-	// generating verification code, recording it ending it will follow here
-	
-return true;	
-}
+		 // set new delimiter
+	    $this->form_validation->set_error_delimiters('<div class="error-box">', '</div>');
+		
+		if($this->form_validation->run($this) == FALSE)
+		{
+				$this->reset_password( $this->input->post('reset_code') );
+		}
+		
+		else
+		{
+			$new_password = sha1(trim($this->input->post('password')));
+			$this->users->change_password( $new_password, $this->input->post('user_id') );
+			
+			$this->users->delete_reset_code( $this->input->post('reset_code') );
+			
+			redirect(base_url().'gcmsadmin/login');
+			
+		}			
+		
+	}
 
 
 	function leave() {

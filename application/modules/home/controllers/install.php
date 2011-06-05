@@ -237,7 +237,7 @@ class Install extends Installer_Controller {
 			if ($this->db->table_exists('gcms_users_forgot_pass')){
 			$this->dbforge->rename_table('gcms_users_forgot_pass', 'bak_'.date('m-d-Y_h-m-s').'-gcms_users_forgot_pass');	
 			}	
-			$db_users_forgot_pass_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE), 'username' => array('type' => 'VARCHAR', 'constraint' => '150'), 'email' => array('type' => 'VARCHAR', 'constraint' => '100'), 'reqdate' => array('type' => 'DATETIME'), 'ip' => array('type' => 'VARCHAR', 'constraint' => '15'), 'retrival_code' => array('type' => 'VARCHAR', 'constraint' => '32'), 'active' => array('type' => 'TINYINT', 'constraint' => '2'));
+			$db_users_forgot_pass_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE), 'user_id' => array('type' => 'VARCHAR', 'constraint' => '150'), 'email' => array('type' => 'VARCHAR', 'constraint' => '100'), 'reqdate' => array('type' => 'DATESTAMP'), 'ip' => array('type' => 'VARCHAR', 'constraint' => '15'), 'retrival_code' => array('type' => 'VARCHAR', 'constraint' => '32'));
 			$this->dbforge->add_field($db_users_forgot_pass_fields);
 			$this->dbforge->add_key('id', TRUE);
 			if( !$this->dbforge->create_table('gcms_users_forgot_pass', TRUE)) $data['tables_status'] = false;	
