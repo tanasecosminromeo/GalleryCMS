@@ -1,239 +1,191 @@
-<?php (defined('BASEPATH')) OR exit('No direct script access allowed');
+<?php
 
-
-
-
-
+(defined('BASEPATH')) OR exit('No direct script access allowed');
 
 // module bootloaded example
-
 // class Public_Controller extends MX_Controller{
 //       
-    // function __construct()
-    // {
-        // parent::__construct();
+// function __construct()
+// {
+// parent::__construct();
 // 
-        // log_message('debug', 'Public Controller Controller Initialized');
+// log_message('debug', 'Public Controller Controller Initialized');
 // 
-		// if( $this->agent->is_mobile() ){
-	      // redirect('/mobile');
-	      // }
-	// }
+// if( $this->agent->is_mobile() ){
+// redirect('/mobile');
+// }
+// }
 // 	
 // 	    
 // 
 // }//end of public controller
-
-
-
-
-
 // Gallery CMS Admin BootLoader Class
 
 
-class Gcmsadmin_Controller extends MX_Controller{
-      
-       function __construct()
-    {
-        parent::__construct();
+class Gcmsadmin_Controller extends MX_Controller
+{
 
-        log_message('debug', 'Gcmsadmin Controller Controller Initialized');
-		
-		$data  = modules::run('gcmsadmin/common/_read_global_settings' );
-				
-		$this->load_gcmsadmin_template( $data['gcms_admin_tpl']);
-		$this->load_gcmsadmin_assets();
-		$this->load_gcmsadmin_defaults($data);
+  function __construct()
+  {
+    parent::__construct();
 
-		
-		
-	}
-	
-	
-		
-		
-	   protected function  load_gcmsadmin_template( $tpl_name='default' ) {
+    log_message('debug', 'Gcmsadmin Controller Controller Initialized');
 
-     	log_message('debug', 'Default gcms admin default template Loaded ');
-		
-     	
-	  	$gadmin['template'] = '../../public_html/gcmstpls/'.$tpl_name.'/gcms_admin_tpl.html';
-		$gadmin['regions'] = array(
-						'title',
-						'meta_tags',
-						'user_panel',
-						'top_nav',
-						'page_title',
-                        'error_mgs',
-            			'main_content',
-            			'right_side',
-            			'footer',
-            			'copyright'
-                     );
+    $data = modules::run('gcmsadmin/common/_read_global_settings');
 
-        // add and switch to installer template
-		$this->template->add_template('gadmin', $gadmin, TRUE);
+    $this->load_gcmsadmin_template($data['gcms_admin_tpl']);
+    $this->load_gcmsadmin_assets();
+    $this->load_gcmsadmin_defaults($data);
+  }
+
+  protected function load_gcmsadmin_template($tpl_name='default')
+  {
+
+    log_message('debug', 'Default gcms admin default template Loaded ');
 
 
-                }
-	
-	 protected function load_gcmsadmin_assets()
-            {
-           // Load js general to all child controllers.
-	
-		
-			
-        }
+    $gadmin['template'] = '../../public_html/gcmstpls/' . $tpl_name . '/gcms_admin_tpl.html';
+    $gadmin['regions'] = array(
+        'title',
+        'meta_tags',
+        'user_panel',
+        'top_nav',
+        'page_title',
+        'error_mgs',
+        'main_content',
+        'right_side',
+        'footer',
+        'copyright'
+    );
 
-	 protected function load_gcmsadmin_defaults( $data )
-            {
-            
-			$copyright = '<strong>Copyright &copy; '.date('Y').' '.$data['site_name'].', All rights reserved. Powered by <a href="http://www.gallerycms.com">GalleryCMS '.$data['gcms_ver'].'</a></strong>';
-					
-        	$this->template->write( 'title', $data['site_name'].' - Administration' );
-			$this->template->write( 'copyright',$copyright );
-			$this->template->write_view('top_nav', 'common/top_nav_view');
-			
-		
-		
-        }
-	
-	
+    // add and switch to installer template
+    $this->template->add_template('gadmin', $gadmin, TRUE);
+  }
 
-}//end of GCMSadmin controller
+  protected function load_gcmsadmin_assets()
+  {
+    // Load js general to all child controllers.
+  }
 
+  protected function load_gcmsadmin_defaults($data)
+  {
 
+    $copyright = '<strong>Copyright &copy; ' . date('Y') . ' ' . $data['site_name'] . ', All rights reserved. Powered by <a href="http://www.gallerycms.com">GalleryCMS ' . $data['gcms_ver'] . '</a></strong>';
 
+    $this->template->write('title', $data['site_name'] . ' - Administration');
+    $this->template->write('copyright', $copyright);
+    $this->template->write_view('top_nav', 'common/top_nav_view');
+  }
+
+}
+
+//end of GCMSadmin controller
 // Gallery CMS Users BootLoader Class
-	
-class Gcmsusers_Controller extends MX_Controller{
-      
-          function __construct()
-    {
-        parent::__construct();
 
-        log_message('debug', 'Users Controller Controller Initialized');
-		 
-		$this->load_gcmsusers_template();
-		$this->load_gcmsusers_assets();
-		$this->load_gcmsusers_defaults();
+class Gcmsusers_Controller extends MX_Controller
+{
 
-		
-	}
-	
-	
-		
-		
-	   protected function  load_gcmsusers_template() {
+  function __construct()
+  {
+    parent::__construct();
 
-     	log_message('debug', 'Default gcms users default template Loaded ');
-		
-     	
-	  	$gusers['template'] = "../../public_html/gcmstpls/default/gcms_users_tpl.html";
-		$gusers['regions'] = array(
-						'title',
-						'meta_tags',
-						'top_nav',
-						'page_title',
-                        'error_mgs',
-            			'main_content',
-            			'right_side',
-            			'footer',
-            			'copyright'
-                     );
+    log_message('debug', 'Users Controller Controller Initialized');
 
-        // add and switch to installer template
-		$this->template->add_template('gusers', $gusers, TRUE);
+    $this->load_gcmsusers_template();
+    $this->load_gcmsusers_assets();
+    $this->load_gcmsusers_defaults();
+  }
+
+  protected function load_gcmsusers_template()
+  {
+
+    log_message('debug', 'Default gcms users default template Loaded ');
 
 
-                }
-	
-	 protected function load_gcmsusers_assets()
-            {
-           // Load js general to all child controllers.
-			
-		
-			// Load css general to child controllers.
-			
-			
-        }
+    $gusers['template'] = "../../public_html/gcmstpls/default/gcms_users_tpl.html";
+    $gusers['regions'] = array(
+        'title',
+        'meta_tags',
+        'top_nav',
+        'page_title',
+        'error_mgs',
+        'main_content',
+        'right_side',
+        'footer',
+        'copyright'
+    );
 
-	 protected function load_gcmsusers_defaults()
-            {
-			$copyright = '<strong>Copyright &copy; '.date('Y').' GalleryCMS, All rights reserved.</strong>';
-					
-        	$this->template->write( 'title','GalleryCMS' );
-			$this->template->write( 'copyright',$copyright );
-			$this->template->write_view('top_nav', 'common/top_nav_view');
-		
-		
-        }
-	
+    // add and switch to installer template
+    $this->template->add_template('gusers', $gusers, TRUE);
+  }
 
-}//end of GCMSusers controller
+  protected function load_gcmsusers_assets()
+  {
+    // Load js general to all child controllers.
+    // Load css general to child controllers.
+  }
 
+  protected function load_gcmsusers_defaults()
+  {
+    $copyright = '<strong>Copyright &copy; ' . date('Y') . ' GalleryCMS, All rights reserved.</strong>';
 
-	
+    $this->template->write('title', 'GalleryCMS');
+    $this->template->write('copyright', $copyright);
+    $this->template->write_view('top_nav', 'common/top_nav_view');
+  }
 
+}
+
+//end of GCMSusers controller
 // class used only for the installer
-class Installer_Controller extends MX_Controller{
-      
-    function __construct()
-    {
-        parent::__construct();
+class Installer_Controller extends MX_Controller
+{
 
-        log_message('debug', 'Installer Controller Controller Initialized');
-		 
-		$this->load_template();
-		$this->load_assets();
-		$this->load_defaults();
+  function __construct()
+  {
+    parent::__construct();
 
-		
-	}
-	
-	
-		
-		
-	   protected function  load_template() {
+    log_message('debug', 'Installer Controller Controller Initialized');
 
-     	log_message('debug', 'Default installer template Loaded ');
-		
-     	
-	  	$installer['template'] = "../../public_html/gcmstpls/default/installer.html";
-		$installer['regions'] = array(
-						'title',
-						'header',
-                        'error_mgs',
-            			'main_content',
-            			'footer',
-            			'copyright'
-                     );
+    $this->load_template();
+    $this->load_assets();
+    $this->load_defaults();
+  }
 
-        // add and switch to installer template
-		$this->template->add_template('installer', $installer, TRUE);
+  protected function load_template()
+  {
+
+    log_message('debug', 'Default installer template Loaded ');
 
 
-                }
-	
-	 protected function load_assets()
-            {
-           // Load js general to all child controllers.
-		
-			// Load css general to child controllers.
-			
-        }
+    $installer['template'] = "../../public_html/gcmstpls/default/installer.html";
+    $installer['regions'] = array(
+        'title',
+        'header',
+        'error_mgs',
+        'main_content',
+        'footer',
+        'copyright'
+    );
 
-	 protected function load_defaults()
-            {
-			$data['copyright_year'] = date('Y');		
-        	$this->template->write( 'title','GalleryCMS - A free CMS for photo galleries' );
-			$this->template->write_view('header', 'install/header_view');
-			$this->template->write_view('footer', 'install/footer_view', $data);
-		
-		
-        }
-	
-	
+    // add and switch to installer template
+    $this->template->add_template('installer', $installer, TRUE);
+  }
 
+  protected function load_assets()
+  {
+    // Load js general to all child controllers.
+    // Load css general to child controllers.
+  }
 
-}//end of installer controller
+  protected function load_defaults()
+  {
+    $data['copyright_year'] = date('Y');
+    $this->template->write('title', 'GalleryCMS - A free CMS for photo galleries');
+    $this->template->write_view('header', 'install/header_view');
+    $this->template->write_view('footer', 'install/footer_view', $data);
+  }
+
+}
+
+//end of installer controller

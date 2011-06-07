@@ -48,6 +48,7 @@ $route['mobile/(:any)'] = "mobile/$1";
 $route['gcmsadmin/(:any)'] = "gcmsadmin/$1";
 $route['admin/(:any)'] = "admin/$1";
 $route['gcmsusers/(:any)'] = "gcmsusers/$1";
+$route['gcmsusers/albums/edit/(:any)'] = "gcmsusers/albums/edit/$1";
 
 //eg : $route['404_override']  = "/error404";
 $route['404_override'] = '/error404';

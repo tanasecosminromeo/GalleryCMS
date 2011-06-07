@@ -8,7 +8,6 @@ class Login extends Gcmsadmin_Controller
 
   function __construct()
   {
-
     log_message('debug', "*** URI: " . $this->uri->ruri_string());
 
     parent::__construct();
@@ -25,7 +24,6 @@ class Login extends Gcmsadmin_Controller
 
   function index()
   {
-
     $this->template->write_view('main_content', 'login/login_view');
     $this->template->write('title', ' - Login');
     $this->template->render();
@@ -43,7 +41,8 @@ class Login extends Gcmsadmin_Controller
     if ($this->form_validation->run($this) == FALSE)
     {
       $this->index();
-    } else
+    }
+    else
     {
       $validation = $this->_validate_cred($entry_data);
 
@@ -66,7 +65,8 @@ class Login extends Gcmsadmin_Controller
         //$this->users->last_login();
 
         redirect(base_url() . 'gcmsusers');
-      } else // incorrect username or password
+      }
+      else // incorrect username or password
       {
         $data->error_string = 'Wrong Credentials!';
 
@@ -87,7 +87,8 @@ class Login extends Gcmsadmin_Controller
     if ($is_admin_exist && $is_admin && $is_admin_activated && $is_admin_enabled)
     {
       return true;
-    } else
+    }
+    else
     {
       return false;
     }

@@ -5,6 +5,8 @@ if (!defined('BASEPATH'))
 
 class Gcmsusers extends Gcmsusers_Controller
 {
+  
+  private $_user;
 
   function __construct()
   {
@@ -25,6 +27,17 @@ class Gcmsusers extends Gcmsusers_Controller
     $this->template->write_view('main_content', 'index/index_view');
     $this->template->write('title', ' - Home');
     $this->template->render();
+  }
+  
+  function getUser()
+  {
+    return $this->_user;
+  }
+  
+  function setUser($value)
+  {
+    $this->_user = $value;
+    return $this;
   }
 
 }
