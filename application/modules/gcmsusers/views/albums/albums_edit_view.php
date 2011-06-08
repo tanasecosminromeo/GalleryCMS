@@ -2,7 +2,9 @@
 
 echo validation_errors();
 
-echo form_open(base_url().'gcmsusers/albums/create');
+$album = $album->row();
+
+echo form_open(base_url().'gcmsusers/albums/edit/' . $album->id);
 echo form_label('Album Title', 'title');
 echo form_input(  
         array('name' => 'title',
@@ -27,7 +29,9 @@ echo form_input(
               'value' => $album->aurl_title)
         );
 
-echo form_submit('submit', 'Create Album', 'id="submit_button"');
+echo form_submit('submit', 'Update Album', 'id="submit_button"');
 echo form_close();
 
 ?>
+
+<p><a href="<?php echo base_url(); ?>gcmsusers/albums/remove/<?php echo $album->id; ?>">Delete this album</a></p>

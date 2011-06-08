@@ -3,7 +3,7 @@
 <?php if (isset($rows)): ?>
   <?php foreach ($rows->result() as $album): ?>
 <div class="album-list">
-  <a href="<?php echo base_url(); ?>gcsusers/albums/edit/<?php echo $album->id ?>">
+  <a href="<?php echo base_url(); ?>gcmsusers/albums/edit/<?php echo $album->id ?>">
     <?php echo $album->album; ?>
   </a>
 </div>

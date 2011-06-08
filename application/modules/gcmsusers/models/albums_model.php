@@ -43,7 +43,7 @@ class Albums_Model extends CI_Model
   public function updateAlbum($values)
   {
     $this->db->where('album_owner', $this->session->userdata('user_id'));
-    $this->db->where('id', $values->id);
+    $this->db->where('id', $this->uri->segment(4));
     if ($this->db->update('gcms_albums', $values))
     {
       return true;
@@ -61,9 +61,9 @@ class Albums_Model extends CI_Model
   public function deleteAlbumById($id)
   {
     $this->db->where('album_owner', $this->session->userdata('user_id'));
-    $this->db->where('id', $values->id);
+    $this->db->where('id', $this->uri->segment(4));
     /** @todo This also needs to delete all asset records and images for this album upon deletion */
-    if ($this->db->delete('gcms_albums', $values))
+    if ($this->db->delete('gcms_albums'))
     {
       return true;
     }
