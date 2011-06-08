@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Error404 extends CI_Controller {
+class Page_not_found extends Gcmsadmin_Controller {
 	
 	
 	function __construct() {
@@ -11,7 +11,7 @@ class Error404 extends CI_Controller {
 		}
 
 	function index() {
-		$this->load->view('error404_view');
+		$this->load->view('common/error404_view');
 
 	}
 

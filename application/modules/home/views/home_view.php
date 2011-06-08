@@ -8,7 +8,7 @@
 body { font-family:Helvetica, Arial, sans-serif; background:#bedae8; color:#617a86; margin:0; padding:0; }
 h1, h2, h3 { font-family: 'Amaranth', arial, serif; }
 #uclogo {
-	background-image: url(<?=base_url()?>gcmstpls/default/images/logo.png);
+	background-image: url(<?=base_url()?>com_images/logo.png);
 	margin-top: 250px;
 	margin-right: auto;
 	margin-left: auto;

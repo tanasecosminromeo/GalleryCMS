@@ -17,8 +17,8 @@ class Login extends Gcmsadmin_Controller
     $filename = APPPATH . 'modules/home/controllers/install.php';
     if (file_exists($filename))
     {
-      /** @todo uncomment */
-      //redirect(base_url() . 'install');
+     
+      redirect(base_url() . 'install');
     }
 
 

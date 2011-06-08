@@ -517,3 +517,59 @@ span.ok {
 }
 
 /********end of login*************/
+
+
+
+/*******tables*******************/
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        border-spacing:0;	
+    }
+    
+    table caption strong{
+        text-align:left;
+        font-size: 14px;
+        font-weight: normal;
+        line-height:20px;
+        font-weight:bold;
+    }
+    
+    table caption{
+        text-align:left;
+        padding: 10px;
+    }
+    
+    table th {
+        padding: 13px;
+        font-size: 12px;
+    }
+    
+    table td {
+        padding: 10px;
+        text-align: left;
+    }
+   
+
+    tbody tr:hover td
+    {
+    }
+    
+    table{
+        border: 1px dotted #e2e2e2;
+    }
+    
+    table th {
+        background:#e2e2e2;
+    }
+    
+    table td {
+        border: 1px dotted #e2e2e2;
+    }
+    
+    tbody tr:hover td
+    {
+        background:#F5F5F5;
+    }        
+/**************end of tables*******/

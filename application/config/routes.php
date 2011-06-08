@@ -51,7 +51,7 @@ $route['gcmsusers/(:any)'] = "gcmsusers/$1";
 
 
 //eg : $route['404_override']  = "/error404";
-$route['404_override'] = '/error404';
+$route['404_override'] = "/error404";
 
 
 /* End of file routes.php */
