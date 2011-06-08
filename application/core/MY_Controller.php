@@ -187,7 +187,9 @@ class Installer_Controller extends MX_Controller
     parent::__construct();
 
     log_message('debug', 'Installer Controller Controller Initialized');
-
+	
+	$this->load->library(array('template', 'session'));
+	
     $this->load_template();
     $this->load_assets();
     $this->load_defaults();
