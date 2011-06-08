@@ -37,6 +37,28 @@ class Gcmsadmin_Controller extends MX_Controller
     $this->load_gcmsadmin_assets();
     $this->load_gcmsadmin_defaults($data);
   }
+  
+  
+		public function _remap($method, $params = array())
+		{
+		   if (method_exists($this, $method))
+		       {
+		        return call_user_func_array(array($this, $method), $params);
+		    }
+		    
+		    $this->_show_404();
+		}
+		
+		function _show_404($page=''){
+			
+        header('HTTP/1.1 404 Not Found');
+
+        redirect(base_url().'gcmsadmin/page_not_found');
+        exit;
+    }
+
+
+
 
   protected function load_gcmsadmin_template($tpl_name='default')
   {
@@ -95,6 +117,25 @@ class Gcmsusers_Controller extends MX_Controller
     $this->load_gcmsusers_assets();
     $this->load_gcmsusers_defaults();
   }
+
+
+	public function _remap($method, $params = array())
+		{
+		   if (method_exists($this, $method))
+		       {
+		        return call_user_func_array(array($this, $method), $params);
+		    }
+		    
+		    $this->_show_404();
+		}
+		
+		function _show_404($page=''){
+			
+        header('HTTP/1.1 404 Not Found');
+
+        redirect(base_url().'gcmsusers/page_not_found');
+        exit;
+    }
 
   protected function load_gcmsusers_template()
   {

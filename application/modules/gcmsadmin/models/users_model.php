@@ -3,7 +3,37 @@
 class users_model extends CI_Model
 {
 
+public function countAll()
+    {
+            return $this->db->count_all('gcms_users');
+    }
+	
+	
+     public function getOffsetAll($limit, $offset) {
+         $offset = intval( $offset );
+         $limit = intval( $limit );
 
+        //get all records from users table
+        $this->db->order_by("id", "asc");
+        $this->db->limit($limit, $offset);
+
+       $this->db->select('gcms_users.*', FALSE);
+       $this->db->select('gcms_users_groups.group_id, gcms_users_groups.user_group_display', FALSE);
+       $this->db->select('gcms_albums.aurl_title, gcms_albums.aurl_title');
+
+       $this->db->join('gcms_users_groups', 'gcms_users_groups.group_id = gcms_users.usertype', 'left');
+       $this->db->join('gcms_albums', 'gcms_albums.album_owner = gcms_users.id', 'left');
+
+        $query = $this->db->get('gcms_users');
+
+        if( $query->num_rows() > 0 ) {
+            return $query->result();
+        } else {
+            return array();
+        }
+    } //end getAll by offset
+    	
+	
 public function is_valid_user($data) {
 			
 		$this->db->where( 'email', $data->username );
