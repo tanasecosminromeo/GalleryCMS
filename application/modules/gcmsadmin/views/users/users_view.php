@@ -2,11 +2,14 @@
 
 
  <div id="user-list" class="lists">
- 	
+ <?php
+     if ($total > 0) {
+       
+ ?>
 <table id="records" class="">
     <thead>
     <tr class="">
-      <th>User ID</th>
+      <th>User ID</td>
       <th>Full Name</th>
       <th>Username</th>
       <th>eMail</th>
@@ -21,9 +24,6 @@
 
   <tbody>
     <?php
-    if (isset($err_message)) {
-        echo "<p class=\"error-box\"><em>".$err_message."</em></p>";
-        }else{
 
   foreach($records as $p){
 
@@ -45,13 +45,21 @@
 
  <?php
         }
- }
+
  ?>
   </tbody>
 </table>
 
         <?php      
- if ($total > $limit ) { echo $page_links; }
+ if ($total > $limit ) echo $page_links;
+ ?>
+ 
+ 
+ <?php
+ 
+ }else{
+  echo "<p class=\"error-box\">No Records Found!</p>";
+        }
     ?>
 
 

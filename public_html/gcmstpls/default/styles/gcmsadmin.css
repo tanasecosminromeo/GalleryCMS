@@ -522,25 +522,54 @@ span.ok {
 
 /*******tables*******************/
 
+    table{
+        width:100%;
+        border-collapse:collapse;
+        border-spacing:0;	
+    }
+    
+    table caption strong{
+        text-align:left;
+        font-size: 14px;
+        font-weight: normal;
+        line-height:20px;
+        font-weight:bold;
+    }
+    
+    table caption{
+        text-align:left;
+        padding: 10px;
+    }
+    
+    table th {
+        padding: 13px;
+        font-size: 12px;
+    }
+    
+    table td {
+        padding: 10px;
+        text-align: left;
+    }
+   
 
-caption {font-size: 1.7em; color: #F06; text-align: left;}
-table {margin: 0; padding: 0; border-collapse: collapse; width: 100%;}
-td, th {padding: 10px 4px; border-bottom: 1px solid #EEE;}
-td + td {border-left: 1px solid #FAFAFA; color: #999;}
-td + td + td {color: #666; border-left: none;}
-td a {color: #444; text-decoration: none;}
-td a, th a {}
-td a:hover {background: #444; color: #FFF;}
-tfoot th {text-align: right;}
-th {text-align: left;}
-th + th {text-align: left;}
-th + th + th {text-align: left;}
-th a {color: #F06; text-decoration: none; font-size: 1.1em;}
-th a:visited {color: #F69;}
-th a:hover {color: #F06; text-decoration: none;}
-thead tr, tfoot tr {color: #555; font-size: 1.2em; text-align: center;}
-tr {font: 12px sans-serif; background: url(../_img/row.png) repeat-x #F8F8F8; color: #666;}
-tr:hover {background: #FFF;}
-
-
+    tbody tr:hover td
+    {
+    }
+    
+    table{
+        border: 1px dotted #e2e2e2;
+    }
+    
+    table th {
+        background:#e2e2e2;
+    }
+    
+    table td {
+        border: 1px dotted #e2e2e2;
+    }
+    
+    tbody tr:hover td
+    {
+        background:#F5F5F5;
+    }        
 /**************end of tables*******/
