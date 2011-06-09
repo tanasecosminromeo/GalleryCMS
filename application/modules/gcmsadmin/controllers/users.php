@@ -29,7 +29,7 @@ class Users extends Gcmsadmin_Controller {
 	
 	 function list_users() {
 
-        $per_page = 10;
+        $per_page = 25;
        	$offset = $this->uri->segment(4);
 	    
 		$config['base_url'] = site_url('gcmsadmin/users/list_users');
@@ -38,6 +38,11 @@ class Users extends Gcmsadmin_Controller {
 		$config['per_page'] = $per_page;
 		$config['full_tag_open'] = '<div id="pagination">';
 		$config['full_tag_close'] = '</div>';
+		$config['next_link'] = 'Next';
+		$config['prev_link'] = 'Previous';
+		$config['first_tag_close'] = '</div>';
+		
+		
 		$config['uri_segment'] = '4';
 		
 		$this->pagination->initialize($config);
@@ -53,9 +58,24 @@ class Users extends Gcmsadmin_Controller {
 				$data['limit'] = $per_page;
 				
         $this->template->write_view('user_panel', 'users/user_panel_view');	
+		//widgets
+		$stats = $this->_user_stats();
+		$this->template->write_view('sidebar', 'widgets/user_stat_view', $stats);	
+
+		//main content
 		$this->template->write_view('main_content', 'users/users_view', $data);
 		$this->template->write('title', ' - Users Manager');
 		$this->template->render();
+	}
+	
+	
+	function _user_stats(){
+		
+		$data['super_admins'] = $this->users->countByUserType(0);
+		$data['admins'] = $this->users->countByUserType(1);
+		$data['users'] = $this->users->countByUserType(2);
+		
+		return $data;
 	}
 	
 	

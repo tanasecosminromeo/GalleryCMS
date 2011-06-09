@@ -75,7 +75,7 @@ class Gcmsadmin_Controller extends MX_Controller
         'page_title',
         'error_mgs',
         'main_content',
-        'right_side',
+        'sidebar',
         'footer',
         'copyright'
     );

@@ -9,7 +9,7 @@
 <table id="records" class="">
     <thead>
     <tr class="">
-      <th>User ID</td>
+      <th>UID</td>
       <th>Full Name</th>
       <th>Username</th>
       <th>eMail</th>

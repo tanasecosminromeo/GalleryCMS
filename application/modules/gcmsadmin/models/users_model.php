@@ -3,9 +3,15 @@
 class users_model extends CI_Model
 {
 
-public function countAll()
+	public function countAll()
+	    {
+	            return $this->db->count_all('gcms_users');
+	    }
+	
+	public function countByUserType($type)
     {
-            return $this->db->count_all('gcms_users');
+            $this->db->where( 'usertype', $type );	
+            return $this->db->count_all_results('gcms_users');
     }
 	
 	
