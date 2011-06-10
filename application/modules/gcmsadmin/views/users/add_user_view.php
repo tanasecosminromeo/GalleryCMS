@@ -8,7 +8,7 @@
 
 	<?php
                $con = array('name' => 'useraddform', 'id' => 'useraddform');
-               echo form_open( site_url("gcmsadmin/process_new_user") , $con);
+               echo form_open( site_url("gcmsadmin/users/process_new_user") , $con);
                  ?>
                  
                  <div class="results"> <?php echo validation_errors(); ?> </div>

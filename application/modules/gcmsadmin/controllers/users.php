@@ -14,6 +14,7 @@ class Users extends Gcmsadmin_Controller {
     }   
 		//load necessary libs.
 		$this->load->library('pagination');
+		$this->load->library('form_validation');
 		
 	   // load model
     	$this->load->model('users_model', 'users');
@@ -90,6 +91,42 @@ class Users extends Gcmsadmin_Controller {
 		$this->template->render();
 		
 	}//end of add user func
+	
+	function process_new_user(){
+		
+	$entry_data->fname = trim($this->input->post('fname'));
+	$entry_data->uname = trim($this->input->post('uname'));
+	$entry_data->uemail = trim($this->input->post('uemail'));
+	$entry_data->fname = trim($this->input->post('fname'));
+	$entry_data->upass = sha1(trim($this->input->post('upass')));
+
+    // field name, error message, validation rules
+   	$this->form_validation-> set_rules('fname', 'User Full Name', 'trim|required|min_length[2]|max_length[254]');
+	$this->form_validation-> set_rules('uname', 'User Username', 'trim|required|min_length[7]|max_length[36]|unique[gcms_users.username]');
+	$this->form_validation-> set_rules('upass', 'User Password', 'trim|required|min_length[8]|max_length[36]|matches[upassconf]|sha1');
+	$this->form_validation->set_rules('upassconf', 'User Password Confirmation', 'trim|required');
+	$this->form_validation->set_rules('uemail', 'User Email Address', 'trim|required|valid_email|unique[gcms_users.email]');
+	
+    // set new delimiter
+    $this->form_validation->set_error_delimiters('<div class="error-box">', '</div>');
+
+    if ($this->form_validation->run($this) == FALSE)
+    {
+      $this->add();
+    }
+    else
+    {
+     
+	echo "sucess";
+
+    }
+		
+		
+		
+	}//end of function process_new_user
+	
+	
+	
 	
 	
 	function update(){
