@@ -5,6 +5,8 @@
 	
 	 </div>
 <div class="clear"></div> 
+
+<p><b>Note : </b> Only Super Admins can edit admins and users , Admins can only edit users records.</p>
 	 
  <div id="user-list" class="lists">
  <?php
@@ -43,8 +45,13 @@
       <td><?php echo ($p->activation  == 1 ? "<span class='ok'></span>" : "<span class='no'></span>"); ?></td>
       <td><?= date("m/d/Y", strtotime($p->register_date))  ?></td>
       <td>
-          <a class="updateBtn" href="<?php echo base_url().'gcmsadmin/users/update/'.$p->id; ?>"><img src="com_images/mini-icons/icon_update.png" /></a>
+         <?php if($this->session->userdata('group_id')> 0 && $p->group_id < 2){  ?>
+        	 no edit
+         <?php }else{ ?>
+         	 <a class="updateBtn" href="<?php echo base_url().'gcmsadmin/users/update/'.$p->id; ?>"><img src="com_images/mini-icons/icon_update.png" /></a>
             <a class="deleteBtn" href="<?php echo base_url().'gcmsadmins/users/delete/'.$p->id; ?>"><img src="com_images/mini-icons/icon_delete.png" /></a>
+			
+       <?php  }   ?>
       </td>
     </tr>
 

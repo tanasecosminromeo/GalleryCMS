@@ -83,9 +83,11 @@
 			</li>
 			<li class="input_form">
 				<?php
-				
-				$usertype_data = array('0' => 'Super Admin', '1' => 'Admin', '2' =>'User');
-
+				if($this->session->userdata('group_id')> 0){
+				$usertype_data = array('2' =>'User');	 
+				}else{
+				$usertype_data = array('0' => 'Super Admin', '1' => 'Admin', '2' =>'User');	
+				}
 				echo form_dropdown('usertype', $usertype_data, '2');
 				?>
 			</li>
@@ -98,22 +100,7 @@
 	
 	<div class="clear"></div>
 	
-			
-			<fieldset>
-		<legend>
-			<h4>Albums & Photos Settings</h4>
-		</legend>
-		<ul>
-
-			
 	
-			
-			</ul>
-			</fieldset>
-			
-			
-			
-			
 			<ul>
 			<li>
 					
