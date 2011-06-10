@@ -66,7 +66,7 @@ class Login extends Gcmsadmin_Controller
             'username' => $validation->username,
             'group_id' => $validation->usertype,
             'user_id' => $validation->id,
-            'is_logged_in' => true
+            'is_admin_logged_in' => true
         );
 
         $this->session->set_userdata($sess);

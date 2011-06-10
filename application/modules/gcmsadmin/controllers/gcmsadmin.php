@@ -12,7 +12,7 @@ class Gcmsadmin extends Gcmsadmin_Controller
     parent::__construct();
     log_message('debug', "*** URI: " . $this->uri->ruri_string());
 
-    if (!$this->session->userdata('is_logged_in'))
+   if (!$this->session->userdata('is_admin_logged_in'))
     {
       redirect(base_url() . 'gcmsadmin/login');
     }

@@ -6,4 +6,4 @@
 $route['404_override'] = "gcmsadmin/error404";
 
 
-$route['gcmsadmin/users/:num'] = "gcmsadmin/users/list_users";
+$route['gcmsadmin/users/:num'] = "gcmsadmin/users/index";

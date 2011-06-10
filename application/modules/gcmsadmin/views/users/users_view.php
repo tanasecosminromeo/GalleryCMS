@@ -1,6 +1,11 @@
 <h2>Users Manager</h2>
 
-
+<div>
+		<a class="button" href="<?=base_url()?>gcmsadmin/users/add" >Add A New User/Admin </a>
+	
+	 </div>
+<div class="clear"></div> 
+	 
  <div id="user-list" class="lists">
  <?php
      if ($total > 0) {
