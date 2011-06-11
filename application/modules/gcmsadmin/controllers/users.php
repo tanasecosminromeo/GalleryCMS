@@ -177,13 +177,25 @@ class Users extends Gcmsadmin_Controller {
 	
 	function update(){
 		
+		$uname = trim($this->uri->segment(4));
+		$data = $this->users->getUserbyUname($uname);
 		
+		// load feeds model
+		$this->load->model('feeds_model', 'feeds');
+		$data->feed_count = $this->feeds->countByID($data->id);
+		$data->pub_feed = $this->feeds->countStatusByID($data->id, 1);
 		
-		
-		
+		//main content
+		$this->template->write_view('main_content', 'users/update_user_view', $data);
+		$this->template->write('title', ' - Update User Info');
+		$this->template->render();
 		
 		
 	}//end of update user func
+	
+	
+	
+	
 	
 	function delete(){
 		

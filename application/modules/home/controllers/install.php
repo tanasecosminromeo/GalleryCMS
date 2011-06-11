@@ -229,7 +229,7 @@ class Install extends Installer_Controller {
 			if ($this->db->table_exists('gcms_users')){
 			$this->dbforge->rename_table('gcms_users', 'bak_'.date('m-d-Y_h-m-s').'-gcms_users');
 			}
-			$db_users_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE), 'name' => array('type' => 'VARCHAR', 'constraint' => '255'), 'username' => array('type' => 'VARCHAR', 'constraint' => '150'), 'password' => array('type' => 'VARCHAR', 'constraint' => '100'), 'email' => array('type' => 'VARCHAR', 'constraint' => '100'), 'usertype' => array('type' => 'TINYINT', 'constraint' => '2'), 'enabled' => array('type' => 'TINYINT', 'constraint' => '4'), 'register_date' => array('type' => 'DATETIME'), 'last_visit' => array('type' => 'DATETIME'), 'activation' => array('type' => 'TINYINT', 'constraint' => '2'), 'activation_code' => array('type' => 'VARCHAR', 'constraint' => '25'));
+			$db_users_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE), 'name' => array('type' => 'VARCHAR', 'constraint' => '255'), 'username' => array('type' => 'VARCHAR', 'constraint' => '150'),  'password' => array('type' => 'VARCHAR', 'constraint' => '100'), 'email' => array('type' => 'VARCHAR', 'constraint' => '100'), 'usertype' => array('type' => 'TINYINT', 'constraint' => '2'),'ubio' => array('type' => 'TEXT'), 'register_date' => array('type' => 'TIMESTAMP',  'Attributes' => '', 'default'=> '0000-00-00 00:00:00'), 'last_visit' => array('type' => 'TIMESTAMP'), 'activation' => array('type' => 'TINYINT', 'constraint' => '2'), 'activation_code' => array('type' => 'VARCHAR', 'constraint' => '25'), 'enabled' => array('type' => 'TINYINT', 'constraint' => '4'), 'deleted' => array('type' => 'TINYINT', 'constraint' => '2', 'default'=> '0'), 'uparms' => array('type' => 'VARCHAR', 'constraint' => '255'));
 			$this->dbforge->add_field($db_users_fields);
 			$this->dbforge->add_key('id', TRUE);
 			if( !$this->dbforge->create_table('gcms_users', TRUE)) $data['tables_status'] = false;	
@@ -247,7 +247,7 @@ class Install extends Installer_Controller {
 			if ($this->db->table_exists('gcms_settings')){
 			$this->dbforge->rename_table('gcms_settings', 'bak_'.date('m-d-Y_h-m-s').'-gcms_settings');	
 			}	
-			$settings_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'option_name' => array('type' => 'VARCHAR', 'constraint' => '255'), 'option_value' => array('type' => 'VARCHAR', 'constraint' => '255'));
+			$settings_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'option_name' => array('type' => 'VARCHAR', 'constraint' => '255'), 'option_value' => array('type' => 'VARCHAR', 'constraint' => '255'), 'option_desc' => array('type' => 'VARCHAR', 'constraint' => '255'));
 			$this->dbforge->add_field($settings_fields);
 			$this->dbforge->add_key('id', TRUE);
 			if( !$this->dbforge->create_table('gcms_settings', TRUE)) $data['tables_status'] = false;	
@@ -256,16 +256,25 @@ class Install extends Installer_Controller {
 			if ($this->db->table_exists('gcms_albums')){
 			$this->dbforge->rename_table('gcms_albums', 'bak_'.date('m-d-Y_h-m-s').'-gcms_albums');	
 			}
-			$gallery_albums_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'aurl_title' => array('type' => 'VARCHAR', 'constraint' => '255'), 'album' => array('type' => 'VARCHAR', 'constraint' => '255'), 'description' => array('type' => 'TEXT'), 'album_owner' => array('type' => 'INT', 'constraint' => '255'), 'apublished' => array('type' => 'TINYINT', 'constraint' => '2'), 'order_id' => array('type' => 'INT') );
+			$gallery_albums_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'aurl_title' => array('type' => 'VARCHAR', 'constraint' => '255'), 'album' => array('type' => 'VARCHAR', 'constraint' => '255'), 'description' => array('type' => 'TEXT'), 'album_owner' => array('type' => 'INT', 'constraint' => '11'), 'apublished' => array('type' => 'TINYINT', 'constraint' => '2'), 'order_id' => array('type' => 'INT'), 'acreated' => array('type' => 'TIMESTAMP',  'Attributes' => '', 'default'=> '0000-00-00 00:00:00') );
 			$this->dbforge->add_field($gallery_albums_fields);
 			$this->dbforge->add_key('id', TRUE);
 			if( !$this->dbforge->create_table('gcms_albums', TRUE)) $data['tables_status'] = false;	
 			
-
+			if ($this->db->table_exists('gcms_feeds')){
+			$this->dbforge->rename_table('gcms_feeds', 'bak_'.date('m-d-Y_h-m-s').'-gcms_feeds');	
+			}
+			$gallery_feeds_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'furl_title' => array('type' => 'VARCHAR', 'constraint' => '255'), 'ftitle' => array('type' => 'VARCHAR', 'constraint' => '255'), 'fdesc' => array('type' => 'TEXT'), 'ftype' => array('type' => 'TINYINT', 'constraint' => '2'), 'fdata' => array('type' => 'VARCHAR', 'constraint' => '255'), 'fowner' => array('type' => 'INT', 'constraint' => '11'), 'fpublished' => array('type' => 'TINYINT', 'constraint' => '2'), 'fdeleted' => array('type' => 'TINYINT', 'constraint' => '2'), 'forder' => array('type' => 'TINYINT'), 'fcreated' => array('type' => 'TIMESTAMP',  'Attributes' => '', 'default'=> '0000-00-00 00:00:00') );
+			$this->dbforge->add_field($gallery_feeds_fields);
+			$this->dbforge->add_key('id', TRUE);
+			if( !$this->dbforge->create_table('gcms_feeds', TRUE)) $data['tables_status'] = false;	
+			
+			
+			
 			if ($this->db->table_exists('gcms_assets')){
 			$this->dbforge->rename_table('gcms_assets', 'bak_'.date('m-d-Y_h-m-s').'-gcms_assets');	
 			}		
-			$gallery_assets_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'album_id' => array('type' => 'INT'), 'iurl_title' => array('type' => 'VARCHAR', 'constraint' => '255'), 'img_filename' => array('type' => 'VARCHAR', 'constraint' => '255'), 'thumb_filename' => array('type' => 'VARCHAR', 'constraint' => '255'), 'caption' => array('type' => 'TEXT'), 'img_tags' => array('type' => 'VARCHAR', 'constraint' => '255', ), 'img_owner' => array('type' => 'INT'), 'uploaded' => array('type' => 'DATETIME'), 'rated' => array('type' => 'TINYINT', 'constraint' => '2'), 'ipublished' => array('type' => 'TINYINT', 'constraint' => '2'), 'watermark' => array('type' => 'VARCHAR', 'constraint' => '255'), 'parms' => array('type' => 'VARCHAR', 'constraint' => '255'), 'order_num' => array('type' => 'INT'), 'viewed' => array('type' => 'INT'), 'emailed' => array('type' => 'INT') );
+			$gallery_assets_fields = array('id' => array('type' => 'INT', 'auto_increment' => TRUE, ), 'album_id' => array('type' => 'INT'), 'iurl_title' => array('type' => 'VARCHAR', 'constraint' => '255'), 'img_filename' => array('type' => 'VARCHAR', 'constraint' => '255'), 'ithumb_filename' => array('type' => 'VARCHAR', 'constraint' => '255'), 'icaption' => array('type' => 'TEXT'), 'itags' => array('type' => 'VARCHAR', 'constraint' => '255'), 'iowner' => array('type' => 'INT'), 'iuploaded' => array('type' => 'DATETIME'), 'irated' => array('type' => 'TINYINT', 'constraint' => '2'), 'ipublished' => array('type' => 'TINYINT', 'constraint' => '2'), 'iwatermark' => array('type' => 'VARCHAR', 'constraint' => '255'), 'iparms' => array('type' => 'VARCHAR', 'constraint' => '255'), 'iorder' => array('type' => 'INT'), 'iviewed' => array('type' => 'INT'), 'iemailed' => array('type' => 'INT') );
 			$this->dbforge->add_field($gallery_assets_fields);
 			$this->dbforge->add_key('id', TRUE);
 			if( !$this->dbforge->create_table('gcms_assets', TRUE)) $data['tables_status'] = false;	

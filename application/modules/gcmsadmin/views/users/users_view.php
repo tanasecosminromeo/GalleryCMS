@@ -36,7 +36,7 @@
 
             ?>
 
-      <tr id="<?=$p->id?>">
+      <tr id="<?=$p->username?>">
       <td><?=$p->id?></td>
       <td><?=$p->name ?></td>
       <td><?=$p->username ?></td>
@@ -48,8 +48,8 @@
          <?php if($this->session->userdata('group_id')> 0 && $p->group_id < 2){  ?>
         	 no edit
          <?php }else{ ?>
-         	 <a class="updateBtn" href="<?php echo base_url().'gcmsadmin/users/update/'.$p->id; ?>"><img src="com_images/mini-icons/icon_update.png" /></a>
-            <a class="deleteBtn" href="<?php echo base_url().'gcmsadmins/users/delete/'.$p->id; ?>"><img src="com_images/mini-icons/icon_delete.png" /></a>
+         	 <a class="updateBtn" href="<?php echo base_url().'gcmsadmin/users/update/'.$p->username; ?>"><img src="com_images/mini-icons/icon_update.png" /></a>
+            <a class="deleteBtn" href="<?php echo base_url().'gcmsadmins/users/delete/'.$p->username; ?>"><img src="com_images/mini-icons/icon_delete.png" /></a>
 			
        <?php  }   ?>
       </td>

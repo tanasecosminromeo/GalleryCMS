@@ -182,6 +182,70 @@ class Gcmsusers_Controller extends MX_Controller
 }
 
 //end of GCMSusers controller
+
+
+
+
+
+// Gallery CMS Feeds BootLoader Class
+
+class Gcmsfeeds_Controller extends MX_Controller
+{
+
+  function __construct()
+  {
+    parent::__construct();
+
+    log_message('debug', 'Feeds Controller Controller Initialized');
+
+
+    $this->load_gcmsfeeds_assets();
+    $this->load_gcmsfeeds_defaults();
+  }
+
+
+	public function _remap($method, $params = array())
+		{
+		   if (method_exists($this, $method))
+		       {
+		        return call_user_func_array(array($this, $method), $params);
+		    }
+		    
+		    $this->_show_404();
+		}
+		
+		function _show_404($page=''){
+			
+        header('HTTP/1.1 404 Not Found');
+
+        redirect(base_url().'gfeed/page_not_found');
+        exit;
+    }
+
+
+  protected function load_gcmsfeeds_assets()
+  {
+    // Load js general to all child controllers.
+    // Load css general to child controllers.
+  }
+
+  protected function load_gcmsfeeds_defaults()
+  {
+   	$data = modules::run('gcmsadmin/common/_read_global_settings');
+	
+    $copyright = '<strong>Copyright &copy; ' . date('Y') . ' ' . $data['site_name'] . ', All rights reserved. Powered by <a href="http://www.gallerycms.com">GalleryCMS ' . $data['gcms_ver'] . '</a></strong>';
+	
+  }
+
+}
+
+
+
+
+
+
+
+
 // class used only for the installer
 class Installer_Controller extends MX_Controller
 {

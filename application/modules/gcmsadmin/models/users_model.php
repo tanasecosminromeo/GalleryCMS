@@ -14,6 +14,18 @@ class users_model extends CI_Model
             return $this->db->count_all_results('gcms_users');
     }
 	
+	public function getUserbyUname($uname)
+    {
+       	$this->db->where( 'username', $uname );	
+       	$this->db->limit( 1 );
+       	$query = $this->db->get( 'gcms_users' );
+			
+        if( $query->num_rows() > 0 ) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }
 	
      public function getOffsetAll($limit, $offset) {
          $offset = intval( $offset );
@@ -23,12 +35,12 @@ class users_model extends CI_Model
         $this->db->order_by("id", "asc");
         $this->db->limit($limit, $offset);
 
-       $this->db->select('gcms_users.*', FALSE);
-       $this->db->select('gcms_users_groups.group_id, gcms_users_groups.user_group_display', FALSE);
-       $this->db->select('gcms_albums.aurl_title, gcms_albums.aurl_title');
-
-       $this->db->join('gcms_users_groups', 'gcms_users_groups.group_id = gcms_users.usertype', 'left');
-       $this->db->join('gcms_albums', 'gcms_albums.album_owner = gcms_users.id', 'left');
+       	$this->db->select('gcms_users.*', FALSE);
+       	$this->db->select('gcms_users_groups.group_id, gcms_users_groups.user_group_display', FALSE);
+       	$this->db->select('gcms_albums.album, gcms_albums.aurl_title');
+		
+       	$this->db->join('gcms_users_groups', 'gcms_users_groups.group_id = gcms_users.usertype', 'left');
+       	$this->db->join('gcms_albums', 'gcms_albums.album_owner = gcms_users.id', 'left');
 
         $query = $this->db->get('gcms_users');
 
