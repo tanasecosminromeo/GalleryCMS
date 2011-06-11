@@ -1,8 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-
-
 if(!function_exists('checkdnsrr')){
     function checkdnsrr($host, $type=''){
         if(!empty($host)){
@@ -21,13 +19,3 @@ if(!function_exists('checkdnsrr')){
 
 
 
-
-
-if(!function_exists('domain_exists')){
-function domain_exists($email,$record = 'MX')
-{
-	list($user,$domain) =	explode('@', $email);
-	return checkdnsrr($domain,$record);
-}
-
-}

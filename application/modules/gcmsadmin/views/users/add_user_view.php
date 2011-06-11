@@ -12,7 +12,9 @@
                  ?>
                  
                  <div class="results"> <?php echo validation_errors(); ?> </div>
-                 
+                 <?php
+                 if (isset($err_message))   echo  $err_message ;
+                 ?>
                  
 		<strong>* Marked Fields are Required. </strong>
 

@@ -30,9 +30,6 @@ function delete_directory($dirname) {
 if ( ! function_exists('create_directory'))
 {
 
-
-
-
 /**
  * php at msn dot net 
  *

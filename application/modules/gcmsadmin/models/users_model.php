@@ -122,4 +122,29 @@ public function register_reset_request($data){
 		
 	}
 
+
+	    public function add( $data ) {
+
+        $datestring = "%Y:%m:%d %h:%i:%a";
+        $time = time();
+        $rightnow = mdate($datestring, $time);
+       
+        $create = array(
+            'name' => $data->fname,
+            'username' => $data->uname,
+            'password' => $data->upass,
+            'email' => $data->uemail,
+            'usertype' => $data->usertype,
+            'enabled' => 1,
+            'register_date' => $rightnow,
+            'activation' => 1
+
+        );
+
+    	return $this->db->insert( 'gcms_users', $create );
+		}
+
+
+
+
 }//end of model class

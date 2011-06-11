@@ -31,11 +31,9 @@ class Gcmsadmin_Controller extends MX_Controller
 
     log_message('debug', 'Gcmsadmin Controller Controller Initialized');
 
-    $data = modules::run('gcmsadmin/common/_read_global_settings');
-
-    $this->load_gcmsadmin_template($data['gcms_admin_tpl']);
+    $this->load_gcmsadmin_template();
     $this->load_gcmsadmin_assets();
-    $this->load_gcmsadmin_defaults($data);
+    $this->load_gcmsadmin_defaults();
   }
   
   
@@ -60,13 +58,14 @@ class Gcmsadmin_Controller extends MX_Controller
 
 
 
-  protected function load_gcmsadmin_template($tpl_name='default')
+  protected function load_gcmsadmin_template()
   {
 
     log_message('debug', 'Default gcms admin default template Loaded ');
 
-
-    $gadmin['template'] = '../../public_html/gcmstpls/' . $tpl_name . '/gcms_admin_tpl.html';
+	$this->atpl = modules::run('gcmsadmin/common/_read_setting', 'gcms_admin_tpl');
+	 
+    $gadmin['template'] = '../../public_html/gcmstpls/' . $this->atpl . '/gcms_admin_tpl.html';
     $gadmin['regions'] = array(
         'title',
         'meta_tags',
@@ -89,9 +88,11 @@ class Gcmsadmin_Controller extends MX_Controller
     // Load js general to all child controllers.
   }
 
-  protected function load_gcmsadmin_defaults($data)
-  {
 
+  protected function load_gcmsadmin_defaults()
+  {
+	$data = modules::run('gcmsadmin/common/_read_global_settings');
+	
     $copyright = '<strong>Copyright &copy; ' . date('Y') . ' ' . $data['site_name'] . ', All rights reserved. Powered by <a href="http://www.gallerycms.com">GalleryCMS ' . $data['gcms_ver'] . '</a></strong>';
 
     $this->template->write('title', $data['site_name'] . ' - Administration');
@@ -142,8 +143,10 @@ class Gcmsusers_Controller extends MX_Controller
 
     log_message('debug', 'Default gcms users default template Loaded ');
 
-
-    $gusers['template'] = "../../public_html/gcmstpls/default/gcms_users_tpl.html";
+	
+    $this->utpl = modules::run('gcmsadmin/common/_read_setting', 'gcms_users_tpl');
+	
+    $gusers['template'] = '../../public_html/gcmstpls/'.$this->utpl.'/gcms_users_tpl.html';
     $gusers['regions'] = array(
         'title',
         'meta_tags',
@@ -168,9 +171,10 @@ class Gcmsusers_Controller extends MX_Controller
 
   protected function load_gcmsusers_defaults()
   {
-    $copyright = '<strong>Copyright &copy; ' . date('Y') . ' GalleryCMS, All rights reserved.</strong>';
-
-    $this->template->write('title', 'GalleryCMS');
+   	$data = modules::run('gcmsadmin/common/_read_global_settings');
+	
+    $copyright = '<strong>Copyright &copy; ' . date('Y') . ' ' . $data['site_name'] . ', All rights reserved. Powered by <a href="http://www.gallerycms.com">GalleryCMS ' . $data['gcms_ver'] . '</a></strong>';
+	$this->template->write('title', $data['site_name'] . ' - Administration');
     $this->template->write('copyright', $copyright);
     $this->template->write_view('top_nav', 'common/top_nav_view');
   }

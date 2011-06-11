@@ -7,6 +7,9 @@ class Common extends MX_Controller
 {
 
   protected $data = array();
+  var $row = array ( );
+  var $rows = array ( );
+  
 
   function __construct()
   {
@@ -27,20 +30,41 @@ class Common extends MX_Controller
 
     if (!$data)
     {
-
-      echo "<strong>General Error Cant Read your Site Settings</strong>, contact your Administrator Please. ";
-      die();
+    	echo "<strong>General Error Cant Read your Site Settings</strong>, contact your Administrator Please. ";
+      	die();
     }
-
 
     foreach ($data as $row)
     {
-      $settings_data[$row->option_name] = $row->option_value;
+     $sdata[$row->option_name] = $row->option_value;
+	}
+
+   return $sdata;
+   
+  }
+  
+  
+  
+  function _read_setting( $string )
+  {
+	$this->load->model('settings_model', 'settings');
+
+    $data = $this->settings->_read_setting( $string );
+
+    if (!$data)
+    {
+    	echo "<strong>General Error Cant Read your Site Settings</strong>, contact your Administrator Please. ";
+      	die();
     }
 
-    return $settings_data;
+   return $data;
+   
   }
 
-}
 
-//end of class
+  
+  
+  
+  
+
+}//end of class

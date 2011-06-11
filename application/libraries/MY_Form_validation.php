@@ -48,6 +48,43 @@ function __construct()
 	}
 
 
+	/*
+	 * @access	public
+	 * @param	string
+	 * @param	field
+	 * @return	bool
+	 */
+	
+	function doexist($str, $field)
+	{
+		$CI =& get_instance();
+		list($table, $column) = explode('.', $field, 2);
+
+		$CI->form_validation->set_message('doexist', 'i Cant find your %s in my records.');
+
+		$query = $CI->db->query("SELECT COUNT(*) AS dupe FROM $table WHERE $column = '$str'");
+		$row = $query->row();
+		return ($row->dupe > 0) ? TRUE : FALSE;
+	}
+	
+
+
+
+
+	function chkmx($email)
+	{
+		$CI =& get_instance();
+		list($user,$domain) =	explode('@', $email);
+
+		$CI->form_validation->set_message('chkmx', $email.' : is an invalid Email Address, Check Your Entry and try again!');
+		
+		return ( checkdnsrr($domain,'MX') ) ? TRUE : FALSE;
+	
+	}
+	
+	
+
+	
     /**
     * Overwrites CI's native validation set_select method to work
     * with arrays.

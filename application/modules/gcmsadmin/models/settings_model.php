@@ -9,14 +9,28 @@ class settings_model extends CI_Model
     $query = $this->db->get( 'gcms_settings' );
 
     if( $query->num_rows() > 0 ) {
-    	
-		$rows = $query->result();
-		
-        return $rows;
+    	return $query->result();
     } else {
         return false;
     }
     } //end read config
+
+
+function _read_setting( $string ) {
+   			$this->db->where('option_name', $string);
+			$this->db->limit( 1 );
+    $query = $this->db->get( 'gcms_settings' );
+	
+
+    if( $query->num_rows() > 0 ) {
+    		$row = $query->row();
+            return $row->option_value;
+        } else {
+            return false;
+        }
+    } //end read config
+
+
 
 
 }//end of model class

@@ -46,7 +46,7 @@ class Login extends Gcmsadmin_Controller
     $entry_data->password = sha1(trim($this->input->post('password')));
 
     // field name, error message, validation rules
-    $this->form_validation->set_rules('username', 'Email Address', 'trim|required|valid_email|callback__valid_domain|callback__email_exist');
+    $this->form_validation->set_rules('username', 'Email Address', 'trim|required|valid_email|chkmx|doexist[gcms_users.email]');
     $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
 
     // set new delimiter
@@ -139,7 +139,7 @@ class Login extends Gcmsadmin_Controller
   function password_recovery_go()
   {
     // field name, error message, validation rules
-    $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|callback__valid_domain|callback__email_exist');
+    $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email|chkmx|doexist[gcms_users.email]');
     // set new delimiter
     $this->form_validation->set_error_delimiters('<div class="error-box">', '</div>');
 
@@ -169,39 +169,9 @@ class Login extends Gcmsadmin_Controller
   }
 
 //end of password_recovery_go
-  // callback function answers if email exist in db or not
 
-  function _email_exist($str)
-  {
-    $str = trim($str);
 
-    $exist = $this->users->admin_email_exist($str);
-    if (!$exist)
-    {
-      $this->form_validation->set_message('_email_exist', 'Oops! i cant find your email in my records verify your entry and try again!');
-      return FALSE;
-    }
-    else
-    {
-      return TRUE;
-    }
-  }
 
-  function _valid_domain($str)
-  {
-    $str = trim($str);
-    $exist = domain_exists($str);
-
-    if (!$exist)
-    {
-      $this->form_validation->set_message('_valid_domain', 'Invalid Email Address, Check Your Entry and try again!');
-      return FALSE;
-    }
-    else
-    {
-      return TRUE;
-    }
-  }
 
   function _recovery_code_email($email)
   {

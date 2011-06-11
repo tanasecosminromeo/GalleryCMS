@@ -41,7 +41,7 @@ class Users extends Gcmsadmin_Controller {
 	
 	 function list_users() {
 
-        $per_page = 25;
+        $per_page = 10;
        	$offset = $this->uri->segment(4);
 	    
 		$config['base_url'] = site_url('gcmsadmin/users/index');
@@ -94,11 +94,7 @@ class Users extends Gcmsadmin_Controller {
 	
 	function process_new_user(){
 		
-	$entry_data->fname = trim($this->input->post('fname'));
-	$entry_data->uname = trim($this->input->post('uname'));
-	$entry_data->uemail = trim($this->input->post('uemail'));
-	$entry_data->fname = trim($this->input->post('fname'));
-	$entry_data->upass = sha1(trim($this->input->post('upass')));
+	
 
     // field name, error message, validation rules
    	$this->form_validation-> set_rules('fname', 'User Full Name', 'trim|required|min_length[2]|max_length[254]');
@@ -117,8 +113,27 @@ class Users extends Gcmsadmin_Controller {
     else
     {
      
-	echo "sucess";
-
+	$entry_data->fname = trim($this->input->post('fname'));
+	$entry_data->uname = trim($this->input->post('uname'));
+	$entry_data->uemail = trim($this->input->post('uemail'));
+	$entry_data->upass = sha1(trim($this->input->post('upass')));
+	$entry_data->usertype = trim($this->input->post('usertype'));
+	//insert data and create user sub-folder /~username
+	
+	
+	
+	if(!$this->users->add($entry_data) || !$this->_create_user_fldr($entry_data->uname)) {
+			$data->err_message 	= 'I couldn\'t add this user to the database, or create his home folder, check the your configuration!';
+			
+      }else{
+      		$data->err_message 	= '<div class="success-box"> User Added Successfully </div>';
+			
+      }
+		//main content
+		$this->template->write_view('main_content', 'users/add_user_view', $data);
+		$this->template->write('title', ' - Add New User');
+		$this->template->render();
+	
     }
 		
 		
@@ -126,7 +141,38 @@ class Users extends Gcmsadmin_Controller {
 	}//end of function process_new_user
 	
 	
+	function _create_user_fldr($foldername){
+		
+		$this->upload_fldr = modules::run('gcmsadmin/common/_read_setting', 'uploads_folder');
+		
+		$usr_uploads_dir = $this->upload_fldr.'/~'.$foldername;
+		 
+		$created = create_directory($usr_uploads_dir);
+		
+				if($created){
+			
+			$data = '<html><head>
+					<title>403 Forbidden</title>
+					</head>
+					<body>
+
+					<p>Directory access is forbidden.</p>
+
+					</body>
+					</html>';
+
 	
+	if(!file_exists($usr_uploads_dir.'/index.html')){
+		
+	if ( !write_file($usr_uploads_dir.'/index.html', $data)) $created = false;
+			
+		}
+	
+	}
+		
+		return $created;
+		
+	}
 	
 	
 	function update(){
